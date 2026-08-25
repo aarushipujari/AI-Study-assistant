@@ -1,4 +1,4 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || '';
+const API_BASE = (process.env.NEXT_PUBLIC_API_URL || '').replace(/\/$/, '');
 
 export interface SubjectInfo {
   name: string;
@@ -40,18 +40,14 @@ export interface MCQQuestion {
 
 export const api = {
   async getHealth() {
-    const res = await fetch(`${API_BASE}/health`);
+    const res = await fetch(`${API_BASE}/api/health`);
     return res.json();
   },
 
   async getSubjects(): Promise<{ subjects: SubjectInfo[] }> {
-    try {
-      const res = await fetch(`${API_BASE}/api/subjects`);
-      if (!res.ok) return { subjects: [] };
-      return res.json();
-    } catch {
-      return { subjects: [] };
-    }
+    const res = await fetch(`${API_BASE}/api/subjects`);
+    if (!res.ok) throw new Error('Failed to fetch subjects');
+    return res.json();
   },
 
   async uploadNotes(subject: string, files: File[]) {
@@ -63,6 +59,10 @@ export const api = {
       method: 'POST',
       body: formData,
     });
+    if (!res.ok) {
+      const errText = await res.text().catch(() => 'Upload failed');
+      throw new Error(`Upload error (${res.status}): ${errText}`);
+    }
     return res.json();
   },
 
@@ -78,6 +78,7 @@ export const api = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(params),
     });
+    if (!res.ok) throw new Error('Chat API error');
     return res.json();
   },
 
@@ -92,6 +93,7 @@ export const api = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(params),
     });
+    if (!res.ok) throw new Error('Viva question API error');
     return res.json();
   },
 
@@ -107,6 +109,7 @@ export const api = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(params),
     });
+    if (!res.ok) throw new Error('Viva evaluation API error');
     return res.json();
   },
 
@@ -121,6 +124,7 @@ export const api = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(params),
     });
+    if (!res.ok) throw new Error('Flashcard API error');
     return res.json();
   },
 
@@ -134,6 +138,7 @@ export const api = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(params),
     });
+    if (!res.ok) throw new Error('Quiz MCQ API error');
     return res.json();
   },
 
@@ -147,6 +152,7 @@ export const api = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(params),
     });
+    if (!res.ok) throw new Error('CheatSheet API error');
     return res.json();
   },
 };
