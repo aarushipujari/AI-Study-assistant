@@ -1,13 +1,11 @@
-import os
 from pathlib import Path
 from pypdf import PdfReader
 
 DATA_DIR = Path("data")
-CHUNK_SIZE = 400      # words per chunk
-CHUNK_OVERLAP = 50    # words of overlap between chunks
+CHUNK_SIZE = 400
+CHUNK_OVERLAP = 50
 
 def extract_text_from_pdf(pdf_path):
-    """Extract all text from a PDF file, page by page."""
     reader = PdfReader(pdf_path)
     full_text = ""
     for page in reader.pages:
@@ -16,35 +14,53 @@ def extract_text_from_pdf(pdf_path):
             full_text += text + "\n"
     return full_text
 
-def chunk_text(text, source_name, chunk_size=CHUNK_SIZE, overlap=CHUNK_OVERLAP):
-    """Split text into overlapping chunks of ~chunk_size words."""
+def chunk_text(text, source_name, subject, chunk_size=CHUNK_SIZE, overlap=CHUNK_OVERLAP):
     words = text.split()
     chunks = []
     start = 0
     while start < len(words):
         end = start + chunk_size
         chunk_words = words[start:end]
-        chunk_text = " ".join(chunk_words)
+        chunk_str = " ".join(chunk_words)
         chunks.append({
-            "text": chunk_text,
-            "source": source_name
+            "text": chunk_str,
+            "source": source_name,
+            "subject": subject
         })
-        start += chunk_size - overlap  # move forward, but overlap a bit
+        start += chunk_size - overlap
     return chunks
 
 def process_all_pdfs():
-    """Process every PDF in the data folder and return all chunks."""
+    """
+    Walks data/ subfolders. Each subfolder name = subject.
+    PDFs directly inside data/ (no subfolder) get subject 'General'.
+    """
     all_chunks = []
-    pdf_files = list(DATA_DIR.glob("*.pdf"))
 
-    if not pdf_files:
-        print("No PDF files found in data/ folder!")
+    if not DATA_DIR.exists():
+        print("data/ folder not found!")
         return []
 
-    for pdf_path in pdf_files:
-        print(f"Processing: {pdf_path.name}")
+    # PDFs inside subject subfolders
+    for subfolder in DATA_DIR.iterdir():
+        if subfolder.is_dir():
+            subject = subfolder.name
+            # Use a set to avoid duplicates — Windows filesystems are case-insensitive,
+            # so *.pdf and *.PDF would otherwise match the same file twice.
+            pdf_files = sorted(set(subfolder.glob("*.pdf")) | set(subfolder.glob("*.PDF")))
+            for pdf_path in pdf_files:
+                print(f"Processing: {pdf_path.name} (subject: {subject})")
+                text = extract_text_from_pdf(pdf_path)
+                chunks = chunk_text(text, source_name=pdf_path.name, subject=subject)
+                all_chunks.extend(chunks)
+                print(f"  -> {len(chunks)} chunks created")
+
+    # PDFs directly in data/ (no subfolder) — fallback subject
+    root_pdfs = sorted(set(DATA_DIR.glob("*.pdf")) | set(DATA_DIR.glob("*.PDF")))
+    for pdf_path in root_pdfs:
+        print(f"Processing: {pdf_path.name} (subject: General)")
         text = extract_text_from_pdf(pdf_path)
-        chunks = chunk_text(text, source_name=pdf_path.name)
+        chunks = chunk_text(text, source_name=pdf_path.name, subject="General")
         all_chunks.extend(chunks)
         print(f"  -> {len(chunks)} chunks created")
 
@@ -53,8 +69,5 @@ def process_all_pdfs():
 if __name__ == "__main__":
     chunks = process_all_pdfs()
     print(f"\nTotal chunks created: {len(chunks)}")
-    
     if chunks:
-        print("\n--- Sample chunk (first one) ---")
-        print(f"Source: {chunks[0]['source']}")
-        print(f"Text preview: {chunks[0]['text'][:300]}...")
+        print(f"Subjects found: {sorted(set(c['subject'] for c in chunks))}")

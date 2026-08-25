@@ -1,9 +1,19 @@
 # Environment variables (NEVER commit API keys)
 .env
+.env*.local
 
 # Virtual environment
 venv/
 env/
+
+# Node / Next.js
+node_modules/
+frontend/node_modules/
+.next/
+frontend/.next/
+out/
+build/
+dist/
 
 # Python cache
 __pycache__/
@@ -13,7 +23,8 @@ __pycache__/
 data/faiss_index.bin
 data/chunks.pkl
 
-# OS/editor junk
+# OS / Editor files
 .DS_Store
 .vscode/
 *.log
+.gemini/
