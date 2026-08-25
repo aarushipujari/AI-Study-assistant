@@ -51,11 +51,11 @@ export default function StudyAssistantPage() {
 
       {/* 4 Animated Metric Cards */}
       <StatCards
-        questionsAsked={14}
-        vivaScore={26}
-        vivaTotal={30}
-        flashcardsMastered={12}
-        flashcardsTotal={18}
+        questionsAsked={0}
+        vivaScore={0}
+        vivaTotal={0}
+        flashcardsMastered={0}
+        flashcardsTotal={0}
         studyMinutes={45}
       />
 

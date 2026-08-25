@@ -106,19 +106,16 @@ def inject_custom_styles():
         --danger-text: #F87171;
         """
         contrast_overrides = """
-        /* High Contrast Dark Mode Fixes */
         .stApp, .stApp p, .stApp span, .stApp label, .stApp div, .stApp li {
             color: #F8FAFC;
         }
         
-        /* Widget Labels */
         label, .stWidgetLabel, [data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] p, [data-testid="stWidgetLabel"] span {
             color: #F8FAFC !important;
             font-weight: 700 !important;
             font-size: 14px !important;
         }
 
-        /* Radio buttons text */
         [data-testid="stRadio"] label, 
         [data-testid="stRadio"] p, 
         [data-testid="stRadio"] span, 
@@ -128,7 +125,6 @@ def inject_custom_styles():
             font-size: 14px !important;
         }
 
-        /* Tabs styling */
         .stTabs [data-baseweb="tab-list"] {
             background-color: #111827 !important;
             border: 1px solid rgba(255, 255, 255, 0.15) !important;
@@ -162,25 +158,21 @@ def inject_custom_styles():
             font-weight: 700 !important;
         }
 
-        /* Sliders */
         [data-testid="stSlider"] label, [data-testid="stSlider"] div, [data-testid="stSlider"] p, [data-testid="stSlider"] span {
             color: #F8FAFC !important;
             font-weight: 600 !important;
         }
 
-        /* Selectboxes & Text inputs */
         [data-testid="stSelectbox"] label, [data-testid="stSelectbox"] div, [data-testid="stSelectbox"] p, [data-testid="stSelectbox"] span,
         [data-testid="stTextInput"] label, [data-testid="stTextArea"] label {
             color: #F8FAFC !important;
             font-weight: 600 !important;
         }
 
-        /* Markdown text */
         [data-testid="stMarkdownContainer"] p, [data-testid="stMarkdownContainer"] span, [data-testid="stMarkdownContainer"] strong, [data-testid="stMarkdownContainer"] li {
             color: #F8FAFC !important;
         }
 
-        /* Sidebar labels */
         section[data-testid="stSidebar"] label,
         section[data-testid="stSidebar"] p,
         section[data-testid="stSidebar"] span,
@@ -188,7 +180,6 @@ def inject_custom_styles():
             color: #F8FAFC !important;
         }
 
-        /* Toast Notifications High-Contrast Dark Styling */
         div[data-testid="stToast"], div[data-testid="stNotification"], [data-testid="stToast"] {
             background-color: #1E293B !important;
             border: 1px solid rgba(99, 102, 241, 0.4) !important;
@@ -263,7 +254,6 @@ def inject_custom_styles():
         border-right: 1px solid var(--border-color);
     }}
 
-    /* Hero Banner */
     .hero-banner {{
         background: var(--bg-card);
         border: 1px solid var(--border-color);
@@ -297,7 +287,6 @@ def inject_custom_styles():
         margin-bottom: 12px;
     }}
 
-    /* Status Pills */
     .pill-group {{
         display: flex;
         flex-wrap: wrap;
@@ -325,7 +314,6 @@ def inject_custom_styles():
         color: var(--warning-text);
     }}
 
-    /* Stat Cards */
     .stat-grid {{
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -390,7 +378,6 @@ def inject_custom_styles():
         transition: width 0.5s ease;
     }}
 
-    /* Buttons */
     .stButton > button {{
         background: var(--accent-gradient) !important;
         color: #FFFFFF !important;
@@ -407,7 +394,6 @@ def inject_custom_styles():
         box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4) !important;
     }}
 
-    /* Glass Cards */
     .glass-card {{
         background: var(--bg-card);
         border: 1px solid var(--border-color);
@@ -418,7 +404,6 @@ def inject_custom_styles():
         backdrop-filter: blur(12px);
     }}
 
-    /* Interactive Flashcard 3D Card */
     .flashcard-box {{
         background: var(--bg-card);
         border: 2px solid var(--border-color);
@@ -457,7 +442,6 @@ def inject_custom_styles():
         line-height: 1.4;
     }}
 
-    /* Viva Rubric Score Card */
     .rubric-card {{
         background: var(--bg-card);
         border: 1px solid var(--border-color);
@@ -489,7 +473,6 @@ def inject_custom_styles():
         font-weight: 600;
     }}
 
-    /* Quiz Question Card */
     .quiz-card {{
         background: var(--bg-card);
         border: 1px solid var(--border-color);
@@ -511,7 +494,6 @@ def inject_custom_styles():
         margin: 8px 0 14px 0;
     }}
 
-    /* Chat Styling */
     div[data-testid="stChatMessage"] {{
         background: var(--bg-card) !important;
         border: 1px solid var(--border-color) !important;
@@ -521,7 +503,6 @@ def inject_custom_styles():
         box-shadow: var(--card-shadow) !important;
     }}
 
-    /* Comparison Box */
     .dual-pane-left {{
         background: rgba(99, 102, 241, 0.08);
         border: 1px solid rgba(99, 102, 241, 0.3);
@@ -570,7 +551,7 @@ groq_client = get_groq_client()
 tavily_client = get_tavily_client()
 
 # ==========================================
-# SESSION STATE & PERSISTENCE
+# SESSION STATE & RESET STATISTICS
 # ==========================================
 CHUNK_SIZE = 400
 CHUNK_OVERLAP = 60
@@ -587,17 +568,18 @@ if "all_chunks" not in st.session_state:
     else:
         st.session_state.all_chunks = []
 
-if "stats" not in st.session_state:
-    st.session_state.stats = {
-        "questions_asked": 14,
-        "viva_attempts": 3,
-        "viva_score_total": 26,
-        "flashcards_reviewed": 18,
-        "flashcards_mastered": 12,
-        "quiz_score": 8,
-        "quiz_total": 10,
-        "study_minutes": 45
-    }
+# Reset all mock/demo metrics to zero while keeping focus time
+existing_time = st.session_state.get("stats", {}).get("study_minutes", 45)
+st.session_state.stats = {
+    "questions_asked": 0,
+    "viva_attempts": 0,
+    "viva_score_total": 0,
+    "flashcards_reviewed": 0,
+    "flashcards_mastered": 0,
+    "quiz_score": 0,
+    "quiz_total": 0,
+    "study_minutes": existing_time
+}
 
 if "selected_model" not in st.session_state:
     st.session_state.selected_model = "llama-3.3-70b-versatile"
@@ -808,7 +790,7 @@ with st.sidebar:
             st.markdown(f"- **{sub}**: `{cnt} chunks`")
 
 # ==========================================
-# MAIN DASHBOARD HERO & STAT CARDS
+# MAIN DASHBOARD HERO & STAT CARDS (Clean Zero State)
 # ==========================================
 subjects = sorted(list(set(c.get('subject', 'General') for c in st.session_state.all_chunks)))
 total_chunks_count = len(st.session_state.all_chunks)
@@ -831,8 +813,12 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 stats = st.session_state.stats
-viva_pct = round((stats['viva_score_total'] / max(1, stats['viva_attempts'] * 10)) * 100) if stats['viva_attempts'] > 0 else 0
+viva_total = stats['viva_attempts'] * 10
+viva_pct = round((stats['viva_score_total'] / max(1, viva_total)) * 100) if stats['viva_attempts'] > 0 else 0
+viva_score_str = f"{stats['viva_score_total']}/{viva_total}" if stats['viva_attempts'] > 0 else "0/0"
+
 flash_pct = round((stats['flashcards_mastered'] / max(1, stats['flashcards_reviewed'])) * 100) if stats['flashcards_reviewed'] > 0 else 0
+flash_score_str = f"{stats['flashcards_mastered']}/{stats['flashcards_reviewed']}" if stats['flashcards_reviewed'] > 0 else "0/0"
 
 st.markdown(f"""
 <div class="stat-grid">
@@ -843,14 +829,14 @@ st.markdown(f"""
         </div>
         <p class="stat-value">{stats['questions_asked']}</p>
         <p class="stat-label-pro">Questions Solved</p>
-        <div class="stat-progress-bar"><div class="stat-progress-fill" style="width: 85%;"></div></div>
+        <div class="stat-progress-bar"><div class="stat-progress-fill" style="width: {min(100, stats['questions_asked'] * 10)}%;"></div></div>
     </div>
     <div class="stat-card-pro">
         <div class="stat-card-top">
             <div class="stat-icon-wrapper">🎤</div>
             <span style="font-size: 11px; font-weight: 700; color: var(--success-text); background: var(--success-bg); padding: 2px 8px; border-radius: 10px;">{viva_pct}% READY</span>
         </div>
-        <p class="stat-value">{stats['viva_score_total']}/{stats['viva_attempts']*10} <span style="font-size: 14px; color: var(--text-muted);">pts</span></p>
+        <p class="stat-value">{viva_score_str} <span style="font-size: 14px; color: var(--text-muted);">pts</span></p>
         <p class="stat-label-pro">Viva Oral Exam Score</p>
         <div class="stat-progress-bar"><div class="stat-progress-fill" style="width: {viva_pct}%;"></div></div>
     </div>
@@ -859,7 +845,7 @@ st.markdown(f"""
             <div class="stat-icon-wrapper">🗂️</div>
             <span style="font-size: 11px; font-weight: 700; color: var(--tag-text); background: var(--tag-bg); padding: 2px 8px; border-radius: 10px;">{flash_pct}% MASTERED</span>
         </div>
-        <p class="stat-value">{stats['flashcards_mastered']}/{stats['flashcards_reviewed']}</p>
+        <p class="stat-value">{flash_score_str}</p>
         <p class="stat-label-pro">Flashcard Mastery Rate</p>
         <div class="stat-progress-bar"><div class="stat-progress-fill" style="width: {flash_pct}%;"></div></div>
     </div>

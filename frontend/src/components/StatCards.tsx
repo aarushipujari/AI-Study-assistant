@@ -20,8 +20,8 @@ export function StatCards({
   flashcardsTotal,
   studyMinutes,
 }: StatCardsProps) {
-  const vivaPct = vivaTotal > 0 ? Math.round((vivaScore / vivaTotal) * 100) : 88;
-  const flashPct = flashcardsTotal > 0 ? Math.round((flashcardsMastered / flashcardsTotal) * 100) : 80;
+  const vivaPct = vivaTotal > 0 ? Math.round((vivaScore / vivaTotal) * 100) : 0;
+  const flashPct = flashcardsTotal > 0 ? Math.round((flashcardsMastered / flashcardsTotal) * 100) : 0;
 
   const cards = [
     {
