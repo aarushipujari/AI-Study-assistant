@@ -50,6 +50,14 @@ export const api = {
     return res.json();
   },
 
+  async deleteSubject(name: string): Promise<{ message: string; remaining_chunks: number }> {
+    const res = await fetch(`${API_BASE}/api/subjects?name=${encodeURIComponent(name)}`, {
+      method: 'DELETE',
+    });
+    if (!res.ok) throw new Error('Failed to delete subject');
+    return res.json();
+  },
+
   async uploadNotes(subject: string, files: File[]) {
     const formData = new FormData();
     formData.append('subject', subject);

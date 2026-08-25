@@ -198,6 +198,13 @@ def get_subjects():
         })
     return {"subjects": details}
 
+@app.delete("/api/subjects")
+def delete_subject(name: str):
+    global all_chunks
+    target = name.lower()
+    all_chunks = [c for c in all_chunks if c.get("subject", "").lower() != target]
+    return {"message": f"Deleted subject {name}", "remaining_chunks": len(all_chunks)}
+
 @app.post("/api/upload")
 async def upload_pdf_notes(subject: str = Form(...), files: List[UploadFile] = File(...)):
     global all_chunks

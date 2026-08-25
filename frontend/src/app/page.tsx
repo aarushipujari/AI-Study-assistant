@@ -10,7 +10,7 @@ import { FlashcardsTab } from '@/components/FlashcardsTab';
 import { QuizTab } from '@/components/QuizTab';
 import { CheatSheetTab } from '@/components/CheatSheetTab';
 import { UploadModal } from '@/components/UploadModal';
-import { MessageSquare, Mic, Layers, HelpCircle, Zap, BookOpen } from 'lucide-react';
+import { MessageSquare, Mic, Layers, HelpCircle, Zap, BookOpen, Trash2 } from 'lucide-react';
 
 export default function StudyAssistantPage() {
   const [subjects, setSubjects] = useState<SubjectInfo[]>([]);
@@ -23,8 +23,12 @@ export default function StudyAssistantPage() {
     try {
       const data = await api.getSubjects();
       setSubjects(data.subjects || []);
-      if (data.subjects && data.subjects.length > 0 && !activeSubject) {
-        setActiveSubject(data.subjects[0].name);
+      if (data.subjects && data.subjects.length > 0) {
+        if (!activeSubject || !data.subjects.some((s) => s.name === activeSubject)) {
+          setActiveSubject(data.subjects[0].name);
+        }
+      } else {
+        setActiveSubject('');
       }
     } catch {
       console.error('Failed to fetch subjects');
@@ -36,6 +40,22 @@ export default function StudyAssistantPage() {
   useEffect(() => {
     fetchSubjects();
   }, []);
+
+  const handleDeleteSubject = async (e: React.MouseEvent, subName: string) => {
+    e.stopPropagation();
+    if (!confirm(`Are you sure you want to remove "${subName.toUpperCase()}" from your vault?`)) return;
+
+    try {
+      await api.deleteSubject(subName);
+      const updated = subjects.filter((s) => s.name !== subName);
+      setSubjects(updated);
+      if (activeSubject === subName) {
+        setActiveSubject(updated[0]?.name || '');
+      }
+    } catch {
+      alert('Failed to delete subject');
+    }
+  };
 
   const totalChunks = subjects.reduce((acc, s) => acc + s.chunk_count, 0);
   const currentSubjectInfo = subjects.find((s) => s.name === activeSubject);
@@ -61,46 +81,60 @@ export default function StudyAssistantPage() {
 
       {/* Subject Navigation Tabs */}
       {subjects.length === 0 && !loading ? (
-        <div className="glass-panel rounded-3xl p-12 text-center space-y-4">
+        <div className="vault-panel rounded-3xl p-12 text-center space-y-4">
           <div className="text-5xl mb-2">📂</div>
-          <h3 className="text-xl font-bold text-white">No Course Notes Ingested Yet</h3>
+          <h3 className="text-xl font-bold text-white uppercase font-mono tracking-wider">No Vault Data Ingested Yet</h3>
           <p className="text-slate-400 text-sm max-w-md mx-auto">
-            Upload your lecture slides or textbook PDFs to unlock grounded AI chat, oral viva examiner, 3D flashcard decks, and quiz arena.
+            Ingest your lecture slides or textbook PDFs to unlock grounded AI chat, oral viva examiner, 3D holographic decks, and quiz arena.
           </p>
           <button
             onClick={() => setIsUploadOpen(true)}
-            className="gradient-btn px-6 py-3 rounded-xl text-white font-bold text-sm shadow-xl shadow-indigo-500/25"
+            className="vault-btn-emerald px-6 py-3.5 rounded-2xl text-white font-mono font-bold text-sm shadow-xl tracking-wider uppercase"
           >
-            Upload Your First PDF Note
+            Ingest Your First PDF Note
           </button>
         </div>
       ) : (
         <div className="space-y-6">
-          {/* Active Subject Pill Selector */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-1">
-            <span className="text-xs font-extrabold text-slate-400 uppercase tracking-wider flex items-center gap-1">
-              <BookOpen size={14} className="text-indigo-400" /> Active Subject:
+          {/* Active Subject Pill Selector with Delete Option */}
+          <div className="flex items-center gap-2.5 overflow-x-auto pb-2">
+            <span className="text-xs font-extrabold text-slate-400 uppercase tracking-wider flex items-center gap-1 font-mono">
+              <BookOpen size={14} className="text-indigo-400" /> ACTIVE VAULT:
             </span>
-            {subjects.map((sub) => (
-              <button
-                key={sub.name}
-                onClick={() => setActiveSubject(sub.name)}
-                className={`text-xs font-bold px-4 py-2 rounded-xl transition-all flex items-center gap-2 whitespace-nowrap ${
-                  activeSubject === sub.name
-                    ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/30'
-                    : 'bg-slate-800/80 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700'
-                }`}
-              >
-                <span>{sub.name.toUpperCase()}</span>
-                <span className="text-[10px] opacity-80 bg-black/20 px-1.5 py-0.5 rounded-md">
-                  {sub.chunk_count} chunks
-                </span>
-              </button>
-            ))}
+            {subjects.map((sub) => {
+              const isActive = activeSubject === sub.name;
+              return (
+                <div
+                  key={sub.name}
+                  className={`group flex items-center rounded-2xl border transition-all ${
+                    isActive
+                      ? 'bg-gradient-to-r from-indigo-600 to-purple-600 border-indigo-400/50 text-white shadow-lg shadow-indigo-500/25'
+                      : 'bg-slate-900/90 border-slate-700/80 text-slate-300 hover:border-slate-600 hover:text-white'
+                  }`}
+                >
+                  <button
+                    onClick={() => setActiveSubject(sub.name)}
+                    className="text-xs font-bold font-mono px-4 py-2 flex items-center gap-2 whitespace-nowrap"
+                  >
+                    <span>{sub.name.toUpperCase()}</span>
+                    <span className="text-[10px] opacity-80 bg-black/30 px-2 py-0.5 rounded-md">
+                      {sub.chunk_count} chunks
+                    </span>
+                  </button>
+                  <button
+                    onClick={(e) => handleDeleteSubject(e, sub.name)}
+                    title={`Remove ${sub.name.toUpperCase()} vault`}
+                    className="pr-3 pl-1 py-2 text-slate-400 hover:text-rose-400 transition"
+                  >
+                    <Trash2 size={13} />
+                  </button>
+                </div>
+              );
+            })}
           </div>
 
           {/* Module Navigation Sub-Tabs */}
-          <div className="glass-panel p-1.5 rounded-2xl flex flex-wrap gap-1.5">
+          <div className="vault-panel p-1.5 rounded-2xl flex flex-wrap gap-1.5">
             {[
               { id: 'chat', label: '💬 Dual-Stream AI Chat', icon: <MessageSquare size={15} /> },
               { id: 'viva', label: '🎤 Oral Viva Voce Examiner', icon: <Mic size={15} /> },
@@ -111,9 +145,9 @@ export default function StudyAssistantPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex-1 min-w-[160px] text-xs font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all ${
+                className={`flex-1 min-w-[160px] text-xs font-mono font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all ${
                   activeTab === tab.id
-                    ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/30'
+                    ? 'vault-btn-primary text-white shadow-lg shadow-indigo-500/30'
                     : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
                 }`}
               >
@@ -152,8 +186,8 @@ export default function StudyAssistantPage() {
       />
 
       {/* Footer */}
-      <footer className="text-center text-xs text-slate-500 pt-8 pb-4">
-        AI Study Assistant Pro v2.0 • Full-Stack Next.js + FastAPI Architecture • Ready for Vercel & Render Deployment
+      <footer className="text-center text-xs text-slate-500 pt-8 pb-4 font-mono">
+        VAULTX STUDY ASSISTANT PRO v2.5 • FULL-STACK INTELLIGENCE ARCHITECTURE
       </footer>
     </main>
   );

@@ -787,7 +787,15 @@ with st.sidebar:
         st.markdown("##### 📑 Ingested Subjects")
         for sub in existing_subjects:
             cnt = len([c for c in st.session_state.all_chunks if c['subject'] == sub])
-            st.markdown(f"- **{sub}**: `{cnt} chunks`")
+            s_col1, s_col2 = st.columns([4, 1])
+            with s_col1:
+                st.markdown(f"**{sub}** (`{cnt} chunks`)")
+            with s_col2:
+                if st.button("🗑️", key=f"del_s_{sub}", help=f"Remove {sub}"):
+                    st.session_state.all_chunks = [c for c in st.session_state.all_chunks if c['subject'].lower() != sub.lower()]
+                    save_chunks_to_disk(st.session_state.all_chunks)
+                    st.toast(f"Removed subject '{sub}'", icon="🗑️")
+                    st.rerun()
 
 # ==========================================
 # MAIN DASHBOARD HERO & STAT CARDS (Clean Zero State)
