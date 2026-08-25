@@ -22,6 +22,8 @@ export function StatCards({
 }: StatCardsProps) {
   const vivaPct = vivaTotal > 0 ? Math.round((vivaScore / vivaTotal) * 100) : 0;
   const flashPct = flashcardsTotal > 0 ? Math.round((flashcardsMastered / flashcardsTotal) * 100) : 0;
+  const questionsPct = Math.min(100, questionsAsked * 10);
+  const timePct = Math.min(100, Math.round((studyMinutes / 60) * 100));
 
   const cards = [
     {
@@ -31,13 +33,13 @@ export function StatCards({
       value: questionsAsked,
       label: 'Questions Decoded',
       barColor: 'from-cyan-500 to-blue-600',
-      barPct: 85,
+      barPct: questionsPct,
     },
     {
       icon: <Mic className="text-emerald-400" size={20} />,
       badge: `${vivaPct}% EXAM READINESS`,
       badgeClass: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
-      value: `${vivaScore}/${vivaTotal}`,
+      value: vivaTotal > 0 ? `${vivaScore}/${vivaTotal}` : '0/0',
       subVal: 'pts',
       label: 'Viva Voce Score',
       barColor: 'from-emerald-500 to-teal-500',
@@ -47,7 +49,7 @@ export function StatCards({
       icon: <ShieldCheck className="text-purple-400" size={20} />,
       badge: `${flashPct}% RETENTION`,
       badgeClass: 'bg-purple-500/15 text-purple-300 border-purple-500/30',
-      value: `${flashcardsMastered}/${flashcardsTotal}`,
+      value: flashcardsTotal > 0 ? `${flashcardsMastered}/${flashcardsTotal}` : '0/0',
       label: 'Flashcards Mastered',
       barColor: 'from-purple-500 to-pink-500',
       barPct: flashPct,
@@ -60,7 +62,7 @@ export function StatCards({
       subVal: 'mins',
       label: 'Deep Focus Logged',
       barColor: 'from-amber-500 to-orange-500',
-      barPct: 70,
+      barPct: timePct,
     },
   ];
 
