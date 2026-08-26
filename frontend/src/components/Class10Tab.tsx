@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { api, Class10PYQResponse } from '@/lib/api';
 import { CLASS10_CHAPTERS, NCERTChapter } from '@/lib/class10-data';
 import { OFFICIAL_NCERT_DIAGRAMS, NCERTDiagram } from '@/lib/class10-ncert-diagrams';
+import { NCERTTextbookIllustration } from './NCERTTextbookIllustrations';
 import { MermaidViewer } from './MermaidViewer';
 import { 
   GraduationCap, 
@@ -489,17 +490,9 @@ ${activeDiagram.boardQuestionExamples.map((q) => `- ${q}`).join('\n')}
             </button>
           </div>
 
-          {/* 1. Vector Flow / Circuit / Schematic */}
+          {/* 1. Exact NCERT Textbook Vector Plate */}
           <div className="vault-panel rounded-3xl p-6 space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-mono font-bold text-indigo-300 flex items-center gap-2 uppercase tracking-wider">
-                <Eye size={15} /> 1. Schematic Flow & Functional Mechanism
-              </span>
-              <span className="text-[10px] font-mono bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded border border-indigo-500/30">
-                NCERT VECTOR BLUEPRINT
-              </span>
-            </div>
-            <MermaidViewer chart={activeDiagram.mermaidCode} />
+            <NCERTTextbookIllustration figureId={activeDiagram.id} />
           </div>
 
           {/* 2. Step-by-Step 60-Second Sketching Walkthrough & Labels */}
