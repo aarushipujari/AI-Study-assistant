@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-export type AcademicStream = 'medical' | 'engineering' | 'science';
+export type AcademicStream = 'medical' | 'engineering' | 'class10' | 'science';
 
 export interface UserProfile {
   name: string;

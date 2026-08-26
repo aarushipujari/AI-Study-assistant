@@ -48,9 +48,42 @@ export interface DiagramData {
   clinical_correlation: string;
 }
 
+export interface Class10PYQResponse {
+  chapter_name: string;
+  subject: string;
+  official_ncert_url: string;
+  high_yield_weightage: string;
+  pyq_collection: {
+    id: string;
+    year: string;
+    marks: number;
+    questionType: string;
+    question: string;
+    cbseModelAnswer: string;
+    markingSchemePoints: string[];
+    commonMistakes: string;
+  }[];
+  top_exam_traps: string[];
+  formula_and_laws_cheat_sheet: string[];
+}
+
 export const api = {
   async getHealth() {
     const res = await fetch(`${API_BASE}/api/health`);
+    return res.json();
+  },
+
+  async getClass10PYQs(params: {
+    chapterId: string;
+    questionType?: string;
+    yearRange?: string;
+  }): Promise<Class10PYQResponse> {
+    const res = await fetch(`${API_BASE}/api/class10/pyqs`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(params),
+    });
+    if (!res.ok) throw new Error('Class 10 PYQ API error');
     return res.json();
   },
 

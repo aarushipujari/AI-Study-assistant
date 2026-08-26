@@ -6,8 +6,7 @@ import {
   Shield, 
   Stethoscope, 
   Cpu, 
-  FlaskConical, 
-  Sparkles, 
+  GraduationCap, 
   ArrowRight, 
   Lock, 
   Mail, 
@@ -23,7 +22,7 @@ export function AuthGateway() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [institution, setInstitution] = useState('');
-  const [selectedStream, setSelectedStream] = useState<AcademicStream>('medical');
+  const [selectedStream, setSelectedStream] = useState<AcademicStream>('class10');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,7 +36,9 @@ export function AuthGateway() {
   };
 
   const handleQuickDemo = (stream: AcademicStream) => {
-    if (stream === 'medical') {
+    if (stream === 'class10') {
+      register('Aarav Sharma', 'aarav.sharma@cbse.edu', 'class10', 'Delhi Public School (CBSE Class 10)');
+    } else if (stream === 'medical') {
       register('Dr. Alex Rivera', 'alex.rivera@med.edu', 'medical', 'Global Medical College');
     } else {
       register('Alex Chen', 'alex.chen@eng.edu', 'engineering', 'Tech Institute of Science');
@@ -46,42 +47,49 @@ export function AuthGateway() {
 
   return (
     <div className="min-h-[85vh] flex items-center justify-center p-4">
-      <div className="vault-panel w-full max-w-2xl rounded-3xl p-8 md:p-10 relative overflow-hidden border border-indigo-500/30 shadow-2xl">
+      <div className="vault-panel w-full max-w-3xl rounded-3xl p-8 md:p-10 relative overflow-hidden border border-indigo-500/30 shadow-2xl">
         {/* Top Glow Ambient Strip */}
-        <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-cyan-400 via-indigo-500 to-emerald-400" />
+        <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-amber-400 via-indigo-500 to-cyan-400" />
 
         {/* Header Branding */}
         <div className="text-center space-y-2 mb-8">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500/30 to-emerald-500/20 border border-indigo-500/40 flex items-center justify-center mx-auto shadow-lg shadow-indigo-500/20 mb-3">
-            <Shield className="text-indigo-400" size={28} />
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500/30 to-indigo-500/20 border border-amber-500/40 flex items-center justify-center mx-auto shadow-lg shadow-amber-500/20 mb-3">
+            <Shield className="text-amber-400" size={28} />
           </div>
           <h2 className="text-2xl md:text-3xl font-black tracking-tight vault-gradient-text uppercase font-mono">
             VAULTX PROTOCOL // GATEWAY
           </h2>
-          <p className="text-xs md:text-sm text-slate-400 font-medium max-w-md mx-auto">
-            Personalized AI Intelligence Platform. Select your discipline for dedicated study suites & drawing tools.
+          <p className="text-xs md:text-sm text-slate-400 font-medium max-w-lg mx-auto">
+            Personalized AI Study Platform for Class 10 CBSE Boards, MBBS Medical & Engineering.
           </p>
         </div>
 
-        {/* Quick Demo Fast-Track Buttons */}
+        {/* Quick Demo Fast-Track Buttons (3 Tracks) */}
         <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 mb-6 space-y-2.5">
           <span className="text-[11px] font-mono font-bold text-slate-400 uppercase tracking-widest block text-center">
             ⚡ Quick 1-Click Track Previews:
           </span>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            <button
+              type="button"
+              onClick={() => handleQuickDemo('class10')}
+              className="px-3 py-2.5 rounded-xl bg-amber-950/40 hover:bg-amber-950 text-amber-300 border border-amber-500/40 text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition"
+            >
+              <GraduationCap size={15} /> <span>Class 10 CBSE Mode</span>
+            </button>
             <button
               type="button"
               onClick={() => handleQuickDemo('medical')}
-              className="px-4 py-2.5 rounded-xl bg-cyan-950/40 hover:bg-cyan-950 text-cyan-300 border border-cyan-500/30 text-xs font-mono font-bold flex items-center justify-center gap-2 transition"
+              className="px-3 py-2.5 rounded-xl bg-cyan-950/40 hover:bg-cyan-950 text-cyan-300 border border-cyan-500/30 text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition"
             >
-              <Stethoscope size={15} /> <span>Launch MBBS / Medical Mode</span>
+              <Stethoscope size={15} /> <span>MBBS Medical Mode</span>
             </button>
             <button
               type="button"
               onClick={() => handleQuickDemo('engineering')}
-              className="px-4 py-2.5 rounded-xl bg-indigo-950/40 hover:bg-indigo-950 text-indigo-300 border border-indigo-500/30 text-xs font-mono font-bold flex items-center justify-center gap-2 transition"
+              className="px-3 py-2.5 rounded-xl bg-indigo-950/40 hover:bg-indigo-950 text-indigo-300 border border-indigo-500/30 text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition"
             >
-              <Cpu size={15} /> <span>Launch Engineering Mode</span>
+              <Cpu size={15} /> <span>Engineering Mode</span>
             </button>
           </div>
         </div>
@@ -97,7 +105,7 @@ export function AuthGateway() {
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            ⚡ Create New Operative Profile
+            ⚡ Create New Profile
           </button>
           <button
             type="button"
@@ -108,19 +116,42 @@ export function AuthGateway() {
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            🔐 Sign In to Existing Vault
+            🔐 Sign In to Vault
           </button>
         </div>
 
         {/* Main Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Stream Selector Cards (Crucial Choice) */}
+          {/* Stream Selector Cards */}
           <div>
             <label className="block text-xs font-mono font-bold text-slate-300 mb-2 uppercase">
               1. Select Your Academic Specialization Track:
             </label>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {/* Option A: Medical / MBBS */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {/* Option A: Class 10 CBSE */}
+              <div
+                onClick={() => setSelectedStream('class10')}
+                className={`cursor-pointer p-4 rounded-2xl border transition-all relative ${
+                  selectedStream === 'class10'
+                    ? 'bg-amber-950/40 border-amber-400 shadow-lg shadow-amber-500/20 ring-1 ring-amber-400'
+                    : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center border border-amber-500/30">
+                    <GraduationCap size={16} />
+                  </div>
+                  {selectedStream === 'class10' && (
+                    <CheckCircle2 size={16} className="text-amber-400" />
+                  )}
+                </div>
+                <h4 className="text-sm font-bold text-white font-mono">🎓 Class 10 CBSE</h4>
+                <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">
+                  Pre-loaded NCERT textbooks (0 uploads needed), Board PYQs 2018–2024, step-marking schemes & ray optics.
+                </p>
+              </div>
+
+              {/* Option B: Medical / MBBS */}
               <div
                 onClick={() => setSelectedStream('medical')}
                 className={`cursor-pointer p-4 rounded-2xl border transition-all relative ${
@@ -137,13 +168,13 @@ export function AuthGateway() {
                     <CheckCircle2 size={16} className="text-cyan-400" />
                   )}
                 </div>
-                <h4 className="text-sm font-bold text-white font-mono">🩺 MBBS & Medical Track</h4>
+                <h4 className="text-sm font-bold text-white font-mono">🩺 MBBS Medical</h4>
                 <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">
-                  Anatomy sketching guides, physiological pathways, clinical mnemonics, and viva examiners.
+                  Step-by-step anatomical sketching guides, physiological pathways, clinical mnemonics & viva rubrics.
                 </p>
               </div>
 
-              {/* Option B: Engineering / STEM */}
+              {/* Option C: Engineering / STEM */}
               <div
                 onClick={() => setSelectedStream('engineering')}
                 className={`cursor-pointer p-4 rounded-2xl border transition-all relative ${
@@ -160,9 +191,9 @@ export function AuthGateway() {
                     <CheckCircle2 size={16} className="text-indigo-400" />
                   )}
                 </div>
-                <h4 className="text-sm font-bold text-white font-mono">⚡ Engineering & STEM Track</h4>
+                <h4 className="text-sm font-bold text-white font-mono">⚡ Engineering</h4>
                 <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">
-                  Mathematical derivations, circuit logic, formula indexes, K-maps, and numerical solvers.
+                  Mathematical derivations, circuit logic, formula indexes, K-maps, and numerical problem solvers.
                 </p>
               </div>
             </div>
@@ -182,8 +213,8 @@ export function AuthGateway() {
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="e.g. Dr. Jane Doe or Alex Smith"
-                    className="w-full bg-slate-900/90 border border-slate-700 text-white text-xs rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-indigo-500 font-mono"
+                    placeholder="e.g. Aarav Sharma or Dr. Jane"
+                    className="w-full bg-slate-900/90 border border-slate-700 text-white text-xs rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-amber-500 font-mono"
                   />
                 </div>
               </div>
@@ -200,8 +231,8 @@ export function AuthGateway() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="student@university.edu"
-                  className="w-full bg-slate-900/90 border border-slate-700 text-white text-xs rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-indigo-500 font-mono"
+                  placeholder="student@school.edu"
+                  className="w-full bg-slate-900/90 border border-slate-700 text-white text-xs rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-amber-500 font-mono"
                 />
               </div>
             </div>
@@ -218,7 +249,7 @@ export function AuthGateway() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••••••"
-                  className="w-full bg-slate-900/90 border border-slate-700 text-white text-xs rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-indigo-500 font-mono"
+                  className="w-full bg-slate-900/90 border border-slate-700 text-white text-xs rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-amber-500 font-mono"
                 />
               </div>
             </div>
@@ -226,7 +257,7 @@ export function AuthGateway() {
             {isRegister && (
               <div>
                 <label className="block text-xs font-mono font-bold text-slate-300 mb-1.5 uppercase">
-                  College / Medical University (Optional)
+                  School / College / Board Name (Optional)
                 </label>
                 <div className="relative">
                   <Building2 size={15} className="absolute left-3.5 top-3.5 text-slate-400" />
@@ -234,8 +265,8 @@ export function AuthGateway() {
                     type="text"
                     value={institution}
                     onChange={(e) => setInstitution(e.target.value)}
-                    placeholder="e.g. Harvard Medical / MIT Engineering"
-                    className="w-full bg-slate-900/90 border border-slate-700 text-white text-xs rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-indigo-500 font-mono"
+                    placeholder="e.g. CBSE Board / DPS / Harvard Med"
+                    className="w-full bg-slate-900/90 border border-slate-700 text-white text-xs rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-amber-500 font-mono"
                   />
                 </div>
               </div>

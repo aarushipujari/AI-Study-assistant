@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useAuth, AcademicStream } from '@/context/AuthContext';
-import { X, User, Stethoscope, Cpu, LogOut, CheckCircle2, Building2, Calendar } from 'lucide-react';
+import { X, User, Stethoscope, Cpu, GraduationCap, LogOut, CheckCircle2, Building2, Calendar } from 'lucide-react';
 
 interface ProfileModalProps {
   isOpen: boolean;
@@ -16,7 +16,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-4">
-      <div className="vault-panel w-full max-w-md rounded-3xl p-6 md:p-8 relative border border-indigo-500/30 shadow-2xl space-y-6">
+      <div className="vault-panel w-full max-w-lg rounded-3xl p-6 md:p-8 relative border border-indigo-500/30 shadow-2xl space-y-6">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -27,7 +27,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
 
         {/* Header Profile Badge */}
         <div className="flex items-center gap-3.5">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500/30 to-emerald-500/20 border border-indigo-500/40 flex items-center justify-center font-mono font-black text-xl text-indigo-300 shadow-lg">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500/30 to-indigo-500/20 border border-amber-500/40 flex items-center justify-center font-mono font-black text-xl text-amber-300 shadow-lg">
             {user.name.charAt(0).toUpperCase()}
           </div>
           <div>
@@ -41,7 +41,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
           {user.institution && (
             <div className="flex items-center justify-between text-slate-300">
               <span className="text-slate-500 flex items-center gap-1.5">
-                <Building2 size={13} /> Institution:
+                <Building2 size={13} /> School / Institution:
               </span>
               <span className="font-semibold text-white truncate max-w-[200px]">{user.institution}</span>
             </div>
@@ -56,12 +56,24 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
           </div>
         </div>
 
-        {/* Stream Switcher */}
+        {/* 3-Track Stream Switcher */}
         <div className="space-y-2">
           <label className="block text-xs font-mono font-bold text-slate-300 uppercase">
             Active Specialization Track:
           </label>
-          <div className="grid grid-cols-2 gap-2.5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            <button
+              onClick={() => updateStream('class10')}
+              className={`p-3 rounded-xl border text-xs font-mono font-bold flex flex-col items-center gap-1.5 transition ${
+                user.stream === 'class10'
+                  ? 'bg-amber-950/60 border-amber-400 text-amber-300 shadow-md ring-1 ring-amber-400'
+                  : 'bg-slate-900/80 border-slate-800 text-slate-400 hover:border-slate-700'
+              }`}
+            >
+              <GraduationCap size={18} />
+              <span>🎓 Class 10 CBSE</span>
+            </button>
+
             <button
               onClick={() => updateStream('medical')}
               className={`p-3 rounded-xl border text-xs font-mono font-bold flex flex-col items-center gap-1.5 transition ${
@@ -71,7 +83,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
               }`}
             >
               <Stethoscope size={18} />
-              <span>🩺 MBBS / Medical</span>
+              <span>🩺 MBBS Medical</span>
             </button>
 
             <button
