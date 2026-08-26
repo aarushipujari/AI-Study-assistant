@@ -2,10 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { api, Class10PYQResponse } from '@/lib/api';
-import { CLASS10_CHAPTERS, NCERTChapter } from '@/lib/class10-data';
+import { CLASS10_CHAPTERS, Class10Subject, NCERTChapter } from '@/lib/class10-data';
 import { OFFICIAL_NCERT_DIAGRAMS, NCERTDiagram } from '@/lib/class10-ncert-diagrams';
 import { NCERTTextbookIllustration } from './NCERTTextbookIllustrations';
-import { MermaidViewer } from './MermaidViewer';
 import { 
   GraduationCap, 
   BookOpen, 
@@ -23,21 +22,36 @@ import {
   Award,
   Layers,
   Pencil,
-  Eye
+  Eye,
+  Atom,
+  Dna,
+  Calculator,
+  Globe
 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 
 export function Class10Tab() {
   const [subView, setSubView] = useState<'pyqs' | 'ncert_diagrams'>('pyqs');
-  const [selectedChapterId, setSelectedChapterId] = useState<string>(CLASS10_CHAPTERS[0].id);
+  const [selectedSubject, setSelectedSubject] = useState<Class10Subject>('Science (Biology)');
+  const [selectedChapterId, setSelectedChapterId] = useState<string>('bio-ch5');
   const [selectedDiagramId, setSelectedDiagramId] = useState<string>(OFFICIAL_NCERT_DIAGRAMS[0].id);
   const [questionFilter, setQuestionFilter] = useState('All Sections (CBSE Board Full Paper Mix)');
   const [pyqData, setPyqData] = useState<Class10PYQResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [expandedSolutions, setExpandedSolutions] = useState<Record<string, boolean>>({});
 
-  const currentChapter = CLASS10_CHAPTERS.find((c) => c.id === selectedChapterId) || CLASS10_CHAPTERS[0];
+  // Filter chapters by selected subject
+  const subjectChapters = CLASS10_CHAPTERS.filter((c) => c.subject === selectedSubject);
+  const currentChapter = CLASS10_CHAPTERS.find((c) => c.id === selectedChapterId) || subjectChapters[0] || CLASS10_CHAPTERS[0];
   const activeDiagram = OFFICIAL_NCERT_DIAGRAMS.find((d) => d.id === selectedDiagramId) || OFFICIAL_NCERT_DIAGRAMS[0];
+
+  const handleSubjectChange = (subject: Class10Subject) => {
+    setSelectedSubject(subject);
+    const firstChap = CLASS10_CHAPTERS.find((c) => c.subject === subject);
+    if (firstChap) {
+      setSelectedChapterId(firstChap.id);
+    }
+  };
 
   const fetchPYQs = async (chapterId: string) => {
     setLoading(true);
@@ -71,7 +85,8 @@ export function Class10Tab() {
     if (!pyqData) return;
     const text = `
 # 🎓 CBSE Class 10 Board Master Sheet: ${pyqData.chapter_name}
-**Unit:** ${currentChapter.unitName} | **Board Weightage:** ${pyqData.high_yield_weightage}
+**Subject:** ${selectedSubject} | **Unit:** ${currentChapter.unitName}
+**Board Weightage:** ${pyqData.high_yield_weightage}
 **Official NCERT Textbook PDF:** ${pyqData.official_ncert_url}
 
 ---
@@ -121,11 +136,6 @@ ${pyqData.top_exam_traps.map((t) => `- ${t}`).join('\n')}
 
 ---
 
-## 📊 Schematic Vector Architecture:
-\`\`\`mermaid
-${activeDiagram.mermaidCode}
-\`\`\`
-
 ## ✏️ Step-by-Step 60-Second Board Drawing Guide:
 ${activeDiagram.stepByStepDrawingGuide.map((s, i) => `${i + 1}. ${s}`).join('\n')}
 
@@ -147,9 +157,17 @@ ${activeDiagram.boardQuestionExamples.map((q) => `- ${q}`).join('\n')}
     a.click();
   };
 
+  const subjectTabs: { id: Class10Subject; label: string; icon: React.ReactNode }[] = [
+    { id: 'Science (Biology)', label: '🧬 Biology', icon: <Dna size={14} /> },
+    { id: 'Science (Physics)', label: '⚡ Physics', icon: <Zap size={14} /> },
+    { id: 'Science (Chemistry)', label: '🧪 Chemistry', icon: <Atom size={14} /> },
+    { id: 'Mathematics', label: '📐 Mathematics', icon: <Calculator size={14} /> },
+    { id: 'Social Science', label: '🌍 Social Science', icon: <Globe size={14} /> },
+  ];
+
   return (
     <div className="space-y-6">
-      {/* Top Suite Navigation (PYQ Bank vs Official NCERT Figures) */}
+      {/* Top Suite Header Banner */}
       <div className="vault-panel rounded-3xl p-6 md:p-8 space-y-6 border border-amber-500/30 shadow-xl">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
           <div className="flex items-center gap-3.5">
@@ -166,7 +184,7 @@ ${activeDiagram.boardQuestionExamples.map((q) => `- ${q}`).join('\n')}
                 </span>
               </div>
               <p className="text-xs text-slate-400 mt-0.5 font-medium">
-                100% authentic CBSE syllabus • Exact NCERT textbook figures (Fig 6.7, 6.14, 9.3, 10.2) • Real Board PYQs (2018–2024)
+                Choose your subject & select any chapter from the dropdown • Exact NCERT figures & verified PYQs (2018–2024)
               </p>
             </div>
           </div>
@@ -202,52 +220,69 @@ ${activeDiagram.boardQuestionExamples.map((q) => `- ${q}`).join('\n')}
             SUBVIEW 1: CBSE BOARD PYQ BANK & STEP-MARKING SCHEMES
            ======================================================== */}
         {subView === 'pyqs' && (
-          <div className="space-y-4 pt-2 border-t border-slate-800">
-            {/* Chapter Selector & Direct NCERT PDF Link */}
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-              <span className="text-xs font-mono font-bold text-amber-300 uppercase">
-                Select NCERT Chapter:
+          <div className="space-y-5 pt-2 border-t border-slate-800">
+            {/* STEP 1: SUBJECT SELECTOR PILLS */}
+            <div>
+              <span className="text-xs font-mono font-bold text-amber-300 uppercase block mb-2">
+                1. Choose Class 10 Subject:
               </span>
-              <a
-                href={currentChapter.officialPdfUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-amber-500/30 text-amber-300 text-xs font-mono font-bold flex items-center gap-1.5 transition"
-              >
-                <BookOpen size={13} />
-                <span>Read Official NCERT PDF ({currentChapter.ncertCode})</span>
-                <ExternalLink size={11} className="opacity-70" />
-              </a>
-            </div>
-
-            {/* Chapter Badges */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 max-h-[220px] overflow-y-auto pr-1">
-              {CLASS10_CHAPTERS.map((ch) => {
-                const isSelected = selectedChapterId === ch.id;
-                return (
+              <div className="flex flex-wrap gap-2">
+                {subjectTabs.map((sub) => (
                   <button
-                    key={ch.id}
-                    onClick={() => setSelectedChapterId(ch.id)}
-                    className={`text-left p-3 rounded-xl border text-xs font-mono transition flex items-center justify-between ${
-                      isSelected
-                        ? 'bg-gradient-to-r from-amber-500/25 to-orange-500/25 border-amber-400 text-white font-bold shadow-md ring-1 ring-amber-400/50'
-                        : 'bg-slate-900/70 border-slate-800 text-slate-300 hover:border-slate-700 hover:text-white'
+                    key={sub.id}
+                    onClick={() => handleSubjectChange(sub.id)}
+                    className={`px-4 py-2.5 rounded-xl font-mono text-xs font-bold flex items-center gap-2 transition ${
+                      selectedSubject === sub.id
+                        ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 shadow-md shadow-amber-500/30 ring-1 ring-amber-400'
+                        : 'bg-slate-900/90 text-slate-300 hover:bg-slate-800 border border-slate-800'
                     }`}
                   >
-                    <div className="truncate mr-2">
-                      <span className="text-[10px] text-amber-400 block opacity-80">{ch.subject}</span>
-                      <span className="truncate font-semibold">{ch.name}</span>
-                    </div>
-                    <span className="text-[10px] px-2 py-0.5 rounded bg-black/40 text-amber-300 font-bold shrink-0">
-                      {ch.highYieldWeightage}
-                    </span>
+                    {sub.icon}
+                    <span>{sub.label}</span>
                   </button>
-                );
-              })}
+                ))}
+              </div>
+            </div>
+
+            {/* STEP 2: CHAPTER DROPDOWN SELECTOR */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 p-4 rounded-2xl bg-slate-900/90 border border-slate-800">
+              <div className="md:col-span-2 space-y-1.5">
+                <label className="block text-xs font-mono font-bold text-slate-300 uppercase">
+                  2. Select Chapter from Dropdown ({subjectChapters.length} Available):
+                </label>
+                <select
+                  value={selectedChapterId}
+                  onChange={(e) => setSelectedChapterId(e.target.value)}
+                  className="w-full bg-slate-950 border border-amber-500/40 text-amber-300 text-xs md:text-sm font-mono font-bold rounded-xl p-3 focus:outline-none focus:border-amber-400"
+                >
+                  {subjectChapters.map((ch) => (
+                    <option key={ch.id} value={ch.id} className="bg-slate-900 text-slate-200">
+                      Chapter {ch.chapterNumber}: {ch.name} — [{ch.highYieldWeightage}]
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Direct NCERT PDF Link Card */}
+              <div className="flex flex-col justify-end space-y-1.5">
+                <span className="text-[11px] font-mono text-slate-400 font-bold uppercase">
+                  Official Textbook PDF:
+                </span>
+                <a
+                  href={currentChapter.officialPdfUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-3 px-4 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/50 text-amber-300 text-xs font-mono font-bold flex items-center justify-center gap-2 transition shadow-sm"
+                >
+                  <BookOpen size={14} />
+                  <span>Open NCERT PDF ({currentChapter.ncertCode})</span>
+                  <ExternalLink size={12} className="opacity-70" />
+                </a>
+              </div>
             </div>
 
             {/* CBSE Section Filter */}
-            <div className="flex flex-wrap items-center gap-2 pt-2">
+            <div className="flex flex-wrap items-center gap-2 pt-1">
               <span className="text-xs font-mono font-bold text-slate-400 uppercase">Board Section:</span>
               {[
                 'All Sections (CBSE Board Full Paper Mix)',
@@ -278,34 +313,28 @@ ${activeDiagram.boardQuestionExamples.map((q) => `- ${q}`).join('\n')}
         {subView === 'ncert_diagrams' && (
           <div className="space-y-4 pt-2 border-t border-slate-800">
             <span className="text-xs font-mono font-bold text-cyan-300 uppercase block">
-              Select Official NCERT Textbook Diagram:
+              Select Official NCERT Textbook Diagram from Dropdown:
             </span>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
-              {OFFICIAL_NCERT_DIAGRAMS.map((diag) => {
-                const isSelected = selectedDiagramId === diag.id;
-                return (
-                  <button
-                    key={diag.id}
-                    onClick={() => setSelectedDiagramId(diag.id)}
-                    className={`text-left p-3.5 rounded-2xl border text-xs font-mono transition flex flex-col justify-between gap-2 ${
-                      isSelected
-                        ? 'bg-gradient-to-r from-cyan-950/60 to-indigo-950/60 border-cyan-400 text-white font-bold shadow-lg ring-1 ring-cyan-400'
-                        : 'bg-slate-900/70 border-slate-800 text-slate-300 hover:border-slate-700'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 text-[10px] font-bold border border-cyan-500/30">
-                        {diag.figureNumber}
-                      </span>
-                      <span className="text-[10px] text-amber-400 font-bold">
-                        {diag.marksWeightage}
-                      </span>
-                    </div>
-                    <span className="font-bold text-sm text-slate-100 line-clamp-1">{diag.title}</span>
-                    <span className="text-[10px] text-slate-400">{diag.subject} • Chapter {diag.chapterNumber}</span>
-                  </button>
-                );
-              })}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="md:col-span-2">
+                <select
+                  value={selectedDiagramId}
+                  onChange={(e) => setSelectedDiagramId(e.target.value)}
+                  className="w-full bg-slate-950 border border-cyan-500/40 text-cyan-300 text-xs md:text-sm font-mono font-bold rounded-xl p-3 focus:outline-none focus:border-cyan-400"
+                >
+                  {OFFICIAL_NCERT_DIAGRAMS.map((diag) => (
+                    <option key={diag.id} value={diag.id} className="bg-slate-900 text-slate-200">
+                      {diag.figureNumber}: {diag.title} ({diag.subject} • {diag.marksWeightage})
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="flex items-center">
+                <span className="text-xs font-mono text-slate-400">
+                  {OFFICIAL_NCERT_DIAGRAMS.length} High-Yield NCERT Plates Loaded
+                </span>
+              </div>
             </div>
           </div>
         )}
@@ -320,7 +349,7 @@ ${activeDiagram.boardQuestionExamples.map((q) => `- ${q}`).join('\n')}
           {loading && (
             <div className="vault-panel p-10 rounded-3xl flex flex-col items-center justify-center gap-3 text-slate-300 font-mono text-xs">
               <div className="w-8 h-8 border-3 border-amber-400 border-t-transparent rounded-full animate-spin" />
-              <span>Fetching official CBSE Board Papers (2018–2024) and step-by-step marking rubrics...</span>
+              <span>Fetching official CBSE Board Papers (2018–2024) for {currentChapter.name}...</span>
             </div>
           )}
 
@@ -333,7 +362,7 @@ ${activeDiagram.boardQuestionExamples.map((q) => `- ${q}`).join('\n')}
                     OFFICIAL CBSE BOARD QUESTION BANK
                   </span>
                   <h3 className="text-xl md:text-2xl font-black text-white mt-1">
-                    {pyqData.chapter_name} ({pyqData.subject})
+                    {pyqData.chapter_name} ({selectedSubject})
                   </h3>
                   <p className="text-xs font-mono text-slate-400 mt-1">
                     Board Weightage: <span className="text-amber-300 font-bold">{pyqData.high_yield_weightage}</span> • {currentChapter.unitName}

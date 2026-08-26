@@ -1,8 +1,16 @@
+export type Class10Subject = 
+  | 'Science (Chemistry)'
+  | 'Science (Biology)'
+  | 'Science (Physics)'
+  | 'Mathematics'
+  | 'Social Science';
+
 export interface NCERTChapter {
   id: string;
   name: string;
+  chapterNumber: number;
+  subject: Class10Subject;
   unitName: string;
-  subject: 'Science (Physics)' | 'Science (Chemistry)' | 'Science (Biology)' | 'Mathematics';
   ncertCode: string;
   officialPdfUrl: string;
   highYieldWeightage: string;
@@ -14,309 +22,477 @@ export interface NCERTChapter {
 
 export const CLASS10_CHAPTERS: NCERTChapter[] = [
   // ==========================================
-  // UNIT 1: CHEMICAL SUBSTANCES - NATURE & BEHAVIOUR (25 MARKS)
+  // SCIENCE - CHEMISTRY
   // ==========================================
   {
-    id: 'chem-reactions',
+    id: 'chem-ch1',
+    chapterNumber: 1,
     name: 'Chemical Reactions and Equations',
-    unitName: 'Unit I: Chemical Substances (25 Marks)',
     subject: 'Science (Chemistry)',
+    unitName: 'Unit I: Chemical Substances (25 Marks)',
     ncertCode: 'jesc101',
     officialPdfUrl: 'https://ncert.nic.in/textbook/pdf/jesc101.pdf',
     highYieldWeightage: '6-8 Marks',
-    coreConceptsSummary: 'Balancing chemical equations, Types of reactions: Combination (Quicklime + Water), Decomposition (Thermal: FeSO4, CaCO3, Pb(NO3)2; Electrolytic: H2O; Photolytic: AgCl, AgBr), Displacement (Fe + CuSO4), Double Displacement (Na2SO4 + BaCl2 precipitation), Oxidation & Reduction (Redox reactions like CuO + H2 -> Cu + H2O), Corrosion of metals & Rancidity of fats.',
+    coreConceptsSummary: 'Balancing chemical equations, Combination, Decomposition (Thermal, Electrolytic, Photolytic), Displacement, Double Displacement (Precipitation), Redox (Oxidation & Reduction), Corrosion & Rancidity.',
     importantNCERTFigures: [
-      'NCERT Fig 1.1: Burning of magnesium ribbon in air (White ash of MgO & dazzling flame)',
-      'NCERT Fig 1.6: Electrolysis of water (H2 at cathode in 2:1 volume ratio to O2 at anode)',
-      'NCERT Fig 1.7: Photolytic decomposition of silver chloride in sunlight (White turning grey)'
+      'NCERT Fig 1.1: Burning of magnesium ribbon in air',
+      'NCERT Fig 1.6: Electrolysis of water (2:1 volume ratio H2 to O2)',
+      'NCERT Fig 1.7: Photolytic decomposition of silver chloride'
     ],
     repeatedBoardTopics: [
-      'Why is respiration considered an exothermic reaction?',
-      'Identify substance oxidized, reduced, oxidizing agent, and reducing agent in a given reaction',
-      'What is observed when lead nitrate Pb(NO3)2 powder is heated in a dry boiling tube? (Brown fumes of NO2 + yellow residue of PbO)',
-      'Thermal decomposition of Ferrous Sulphate FeSO4 crystals (Green crystals turn white then reddish brown with smell of burning sulphur)'
+      'Why is respiration an exothermic reaction?',
+      'Identify substance oxidized, reduced, oxidizing agent, and reducing agent in redox reactions',
+      'Thermal decomposition of Pb(NO3)2 (brown fumes of NO2 + yellow residue of PbO)'
     ],
     pyqCount: 32,
   },
   {
-    id: 'acids-bases-salts',
+    id: 'chem-ch2',
+    chapterNumber: 2,
     name: 'Acids, Bases and Salts',
-    unitName: 'Unit I: Chemical Substances (25 Marks)',
     subject: 'Science (Chemistry)',
+    unitName: 'Unit I: Chemical Substances (25 Marks)',
     ncertCode: 'jesc102',
     officialPdfUrl: 'https://ncert.nic.in/textbook/pdf/jesc102.pdf',
     highYieldWeightage: '6-8 Marks',
-    coreConceptsSummary: 'Reaction of acids with metals (Zn + H2SO4 -> ZnSO4 + H2 pop sound) and metal carbonates (CO2 gas turns lime water milky), pH scale (0-14) and everyday importance (Tooth decay at pH < 5.5, Acid rain at pH < 5.6, Antacids in stomach acidity), Chlor-alkali process (2NaCl + 2H2O -> 2NaOH + Cl2 + H2), Bleaching Powder (CaOCl2), Baking Soda (NaHCO3), Washing Soda (Na2CO3·10H2O), Plaster of Paris (CaSO4·1/2H2O & Gypsum CaSO4·2H2O), Water of Crystallisation (CuSO4·5H2O blue to white).',
+    coreConceptsSummary: 'Reaction of acids with metals/carbonates, pH scale (0-14), Chlor-alkali process (NaOH, Cl2, H2), Bleaching Powder (CaOCl2), Baking Soda (NaHCO3), Washing Soda (Na2CO3·10H2O), Plaster of Paris (CaSO4·1/2H2O & Gypsum).',
     importantNCERTFigures: [
-      'NCERT Fig 2.1: Reaction of zinc granules with dilute H2SO4 & testing H2 by burning pop sound',
-      'NCERT Fig 2.2: Passing CO2 through calcium hydroxide (lime water turning milky due to CaCO3)',
-      'NCERT Fig 2.3: Acid solution in water conducting electricity (Bulb glows due to H+ ions)'
+      'NCERT Fig 2.1: Reaction of zinc granules with dilute H2SO4 (pop sound test)',
+      'NCERT Fig 2.2: Passing CO2 through calcium hydroxide (lime water turning milky)'
     ],
     repeatedBoardTopics: [
-      'Chlor-alkali process: Name products at anode (Cl2), cathode (H2), and near cathode (NaOH) with uses',
-      'Why does dry HCl gas not turn dry blue litmus paper red? (Absence of H3O+ ions in dry state)',
-      'Plaster of Paris preparation from Gypsum at 373K and why it must be stored in moisture-proof containers',
-      'Baking powder composition (Baking soda + mild edible tartaric acid) and role in cake making'
+      'Chlor-alkali process: Name products at anode (Cl2) and cathode (H2) with uses',
+      'Why does dry HCl gas not turn dry blue litmus paper red?',
+      'Plaster of Paris preparation from Gypsum at 373K'
     ],
     pyqCount: 36,
   },
   {
-    id: 'metals-nonmetals',
+    id: 'chem-ch3',
+    chapterNumber: 3,
     name: 'Metals and Non-metals',
-    unitName: 'Unit I: Chemical Substances (25 Marks)',
     subject: 'Science (Chemistry)',
+    unitName: 'Unit I: Chemical Substances (25 Marks)',
     ncertCode: 'jesc103',
     officialPdfUrl: 'https://ncert.nic.in/textbook/pdf/jesc103.pdf',
     highYieldWeightage: '7-9 Marks',
-    coreConceptsSummary: 'Physical & chemical properties of metals/non-metals, Amphoteric oxides (Al2O3 and ZnO reacting with both acids and bases), Reactivity series (K > Na > Ca > Mg > Al > Zn > Fe > Pb > H > Cu > Hg > Ag > Au), Formation & properties of Ionic compounds (Electron dot representation of NaCl, MgCl2, high melting point, conduct in molten/aqueous state), Metallurgy: Roasting (heating sulphide ores in excess air) vs Calcination (heating carbonate ores in limited air), Thermit reaction (Fe2O3 + 2Al -> 2Fe + Al2O3 for railway track welding), Corrosion prevention & Alloys (Brass, Bronze, Solder, Stainless Steel, 22-carat gold).',
+    coreConceptsSummary: 'Reactivity series, Ionic bonding and electron dot structures of NaCl, MgCl2, Metallurgy (Roasting vs Calcination, Thermit reaction), Corrosion prevention and Alloys (Brass, Bronze, Solder).',
     importantNCERTFigures: [
-      'NCERT Fig 3.3: Action of steam on a metal (Metal + Steam -> Metal oxide + H2 gas)',
-      'NCERT Fig 3.12: Electrolytic refining of copper (Anode: Impure Cu, Cathode: Pure Cu strip, Electrolyte: Acidified CuSO4, Anode mud)'
+      'NCERT Fig 3.3: Action of steam on a metal',
+      'NCERT Fig 3.12: Electrolytic refining of copper'
     ],
     repeatedBoardTopics: [
-      'Draw electron dot transfer structure for the formation of Magnesium Chloride (MgCl2) and Sodium Oxide (Na2O)',
-      'Differentiate between Roasting and Calcination with balanced chemical reactions',
-      'Why are ionic compounds solid, hard and have high melting/boiling points? (Strong electrostatic attraction)',
-      'What are amphoteric oxides? Give 2 examples with balanced equations showing reaction with HCl and NaOH'
+      'Draw electron dot transfer structure for MgCl2 and Na2O',
+      'Differentiate between Roasting and Calcination with chemical reactions',
+      'Why do ionic compounds have high melting points?'
     ],
     pyqCount: 38,
   },
   {
-    id: 'carbon-compounds',
+    id: 'chem-ch4',
+    chapterNumber: 4,
     name: 'Carbon and its Compounds',
-    unitName: 'Unit I: Chemical Substances (25 Marks)',
     subject: 'Science (Chemistry)',
+    unitName: 'Unit I: Chemical Substances (25 Marks)',
     ncertCode: 'jesc104',
     officialPdfUrl: 'https://ncert.nic.in/textbook/pdf/jesc104.pdf',
     highYieldWeightage: '8-10 Marks',
-    coreConceptsSummary: 'Covalent bonding (sharing of electrons), Unique nature of carbon (Catenation self-linking ability & Tetravalency 4 valence electrons), Saturated (Alkanes CnH2n+2) vs Unsaturated (Alkenes CnH2n, Alkynes CnH2n-2) hydrocarbons, Structural Isomers (Butane C4H10: n-butane and isobutane), Homologous series (differ by -CH2- unit and 14u mass), Functional groups (Alcohol -OH, Aldehyde -CHO, Ketone >C=O, Carboxylic acid -COOH), Chemical reactions of carbon: Combustion, Oxidation (Alkaline KMnO4 / Acidified K2Cr2O7), Addition reaction (Hydrogenation of vegetable oils using Ni catalyst), Substitution reaction of methane with Cl2 in sunlight, Properties of Ethanol (reaction with Na, dehydration with conc H2SO4 to ethene) and Ethanoic acid (Esterification reaction with ethanol producing sweet fruity smell ester, Saponification), Soap Micelle cleansing mechanism.',
+    coreConceptsSummary: 'Covalent bonding, Catenation and Tetravalency, Saturated vs Unsaturated hydrocarbons, Homologous series, Functional groups, Combustion, Oxidation, Addition (Hydrogenation of oils), Substitution, Ethanol & Ethanoic acid properties (Esterification & Saponification), Soap Micelles.',
     importantNCERTFigures: [
-      'NCERT Fig 4.1 to 4.5: Electron dot structures of H2, O2, N2, CH4, CO2, H2O, NH3',
-      'NCERT Fig 4.12 & 4.13: Soap micelle formation and oily dirt trapping mechanism'
+      'NCERT Fig 4.1 to 4.5: Electron dot structures of CH4, C2H4, C2H2, CO2, H2O, NH3',
+      'NCERT Fig 4.12: Soap micelle structure and cleansing action'
     ],
     repeatedBoardTopics: [
-      'Explain the cleansing action of soap with labeled diagram of micelle. Why does soap not form lather in hard water?',
-      'Esterification and Saponification reactions with balanced chemical equations',
-      'Hydrogenation of vegetable oils (Addition reaction of unsaturated hydrocarbons using Nickel catalyst)',
-      'Give electron dot structure of (a) Ethanoic acid, (b) Ethene C2H4, (c) Propanone, (d) Methane'
+      'Cleansing action of soap with micelle diagram',
+      'Esterification and Saponification reactions with balanced equations',
+      'Hydrogenation of vegetable oils using Nickel catalyst'
     ],
     pyqCount: 45,
   },
 
   // ==========================================
-  // UNIT 2: WORLD OF LIVING (25 MARKS)
+  // SCIENCE - BIOLOGY
   // ==========================================
   {
-    id: 'life-processes',
+    id: 'bio-ch5',
+    chapterNumber: 5,
     name: 'Life Processes',
-    unitName: 'Unit II: World of Living (25 Marks)',
     subject: 'Science (Biology)',
+    unitName: 'Unit II: World of Living (25 Marks)',
     ncertCode: 'jesc105',
     officialPdfUrl: 'https://ncert.nic.in/textbook/pdf/jesc105.pdf',
     highYieldWeightage: '9-11 Marks',
-    coreConceptsSummary: 'Nutrition: Autotrophic (Photosynthesis equation: 6CO2 + 12H2O -> C6H12O6 + 6O2 + 6H2O, Stomata opening/closing by guard cells), Heterotrophic (Holozoic nutrition in Amoeba by pseudopodia), Human Digestive System (Salivary amylase, Pepsin & HCl in stomach, Bile from liver for emulsification of fats, Trypsin and Lipase from pancreas, Villi in small intestine for absorption). Respiration: 3 pathways of glucose breakdown (Aerobic in mitochondria -> CO2 + H2O + 38ATP, Anaerobic in yeast -> Ethanol + CO2 + 2ATP, Lack of O2 in muscles -> Lactic acid causing cramps + 2ATP), Human Respiratory system (Alveoli huge surface area). Transportation: Human Heart (4 chambers, Double Circulation: Pulmonary and Systemic loops), Blood components & Lymph, Xylem (vessels/tracheids for water transport by transpirational pull) vs Phloem (sieve tubes/companion cells for translocation of sucrose by ATP). Excretion: Human Excretory System (Kidneys, Ureters, Bladder, Urethra), Structure of Nephron (Bowman\'s capsule, Glomerulus, Convoluted tubule, Collecting duct), Steps of urine formation (Ultrafiltration, Selective reabsorption of glucose/amino acids/salts, Tubular secretion).',
+    coreConceptsSummary: 'Autotrophic nutrition (Photosynthesis & Stomata), Human Digestive System, 3 pathways of glucose breakdown (Aerobic, Anaerobic, Muscle cells), Human Heart & Double Circulation, Xylem vs Phloem, Human Excretory System & Nephron structure.',
     importantNCERTFigures: [
-      'NCERT Fig 6.3: Open and closed stomatal pore with guard cells and chloroplasts',
-      'NCERT Fig 6.4: Human Alimentary Canal / Digestive System',
-      'NCERT Fig 6.7: Sectional view of the Human Heart showing double circulation flow',
-      'NCERT Fig 6.13: Excretory system in human beings',
+      'NCERT Fig 6.3: Stomata open and closed with guard cells',
+      'NCERT Fig 6.4: Human Alimentary Canal',
+      'NCERT Fig 6.7: Human Heart Sectional View and Blood Flow',
       'NCERT Fig 6.14: Structure of a Nephron'
     ],
     repeatedBoardTopics: [
-      'Draw the 3 pathways of breakdown of glucose in different organisms (Aerobic, Anaerobic in Yeast, Muscle cells)',
-      'Draw neat labeled diagram of human heart. Why is double circulation necessary in mammals and birds?',
-      'Draw nephron structure and explain how urine is formed and its volume regulated (ADH role)',
-      'What is the role of: (a) Salivary amylase, (b) Pepsin, (c) Bile juice, (d) Trypsin, (e) Villi in digestion?'
+      'Draw 3 pathways of breakdown of glucose in different organisms',
+      'Draw human heart and explain why double circulation is necessary',
+      'Nephron structure and steps of urine formation'
     ],
     pyqCount: 50,
   },
   {
-    id: 'control-coordination',
+    id: 'bio-ch6',
+    chapterNumber: 6,
     name: 'Control and Coordination',
-    unitName: 'Unit II: World of Living (25 Marks)',
     subject: 'Science (Biology)',
+    unitName: 'Unit II: World of Living (25 Marks)',
     ncertCode: 'jesc106',
     officialPdfUrl: 'https://ncert.nic.in/textbook/pdf/jesc106.pdf',
     highYieldWeightage: '5-7 Marks',
-    coreConceptsSummary: 'Nervous system: Structure of Neuron (Dendrite, Cyton, Axon, Nerve ending), Synapse transmission via neurotransmitters, Reflex Arc (Receptor -> Sensory neuron -> Spinal Cord Relay neuron -> Motor neuron -> Effector muscle). Human Brain: Forebrain (Cerebrum: sensory, thinking, memory center), Midbrain (Reflex of neck, eyes), Hindbrain (Cerebellum: posture & balance; Pons: respiration rate; Medulla: involuntary blood pressure, salivation, vomiting). Plant Movements: Tropic movements (Phototropism - Auxin bends shoot to light, Geotropism, Hydrotropism, Chemotropism - Pollen tube growth towards ovule), Nastic non-directional movement (Mimosa pudica touch-me-not turgor pressure). Plant Hormones: Auxin (cell elongation), Gibberellin (stem growth), Cytokinin (cell division in fruits/seeds), Abscisic Acid (growth inhibitor, wilting of leaves). Endocrine System: Pituitary (Growth hormone -> Dwarfism/Gigantism), Thyroid (Thyroxin requires Iodine -> Goitre prevention), Pancreas (Insulin -> Diabetes mellitus), Adrenal (Adrenaline fight-or-flight hormone), Testes (Testosterone) & Ovaries (Estrogen).',
+    coreConceptsSummary: 'Structure of Neuron, Synapse, Reflex Arc, Human Brain (Cerebrum, Cerebellum, Medulla, Pons), Plant Tropisms (Phototropism, Geotropism) and Plant Hormones (Auxin, Gibberellin, Cytokinin, ABA), Endocrine Glands (Pituitary, Thyroid, Pancreas, Adrenal).',
     importantNCERTFigures: [
-      'NCERT Fig 7.1 (a): Structure of a Neuron',
-      'NCERT Fig 7.2: Reflex Arc pathway and components',
-      'NCERT Fig 7.3: Human Brain (Forebrain, Midbrain, Hindbrain: Cerebrum, Cerebellum, Medulla, Pons)'
+      'NCERT Fig 7.1: Structure of Neuron',
+      'NCERT Fig 7.2: Reflex Arc pathway',
+      'NCERT Fig 7.3: Human Brain'
     ],
     repeatedBoardTopics: [
-      'Draw reflex arc and trace the pathway of nerve impulse when a hand accidentally touches a hot plate',
-      'Draw a neuron and state functions of Dendrite, Axon, and Synapse',
-      'Functions of Cerebellum, Medulla, and Cerebrum in human brain',
-      'Why is the use of iodised salt advisable? Mention hormone secreted by thyroid gland'
+      'Draw reflex arc and trace sequence of events when touching hot object',
+      'Draw neuron and state functions of Dendrite, Axon, and Synapse',
+      'Functions of Cerebellum and Medulla in human brain'
     ],
     pyqCount: 30,
   },
   {
-    id: 'reproduction',
+    id: 'bio-ch7',
+    chapterNumber: 7,
     name: 'How do Organisms Reproduce?',
-    unitName: 'Unit II: World of Living (25 Marks)',
     subject: 'Science (Biology)',
+    unitName: 'Unit II: World of Living (25 Marks)',
     ncertCode: 'jesc107',
     officialPdfUrl: 'https://ncert.nic.in/textbook/pdf/jesc107.pdf',
     highYieldWeightage: '7-9 Marks',
-    coreConceptsSummary: 'Asexual Reproduction: Binary fission (Amoeba, Leishmania with whip flagellum), Multiple fission (Plasmodium malarial parasite), Budding (Hydra, Yeast), Fragmentation (Spirogyra), Regeneration (Planaria), Spore formation (Rhizopus bread mould sporangia), Vegetative propagation (Bryophyllum leaf notches, Grafting/Cutting). Sexual Reproduction in Flowering Plants: LS of Flower (Sepals, Petals, Stamen: Anther producing pollen + Filament, Carpel: Stigma + Style + Ovary), Pollination (Self vs Cross) and Pollen tube germination on stigma, Fertilization: Zygote -> Embryo, Ovule becomes Seed, Ovary becomes Fruit. Human Reproduction: Male Reproductive System (Testes in scrotum outside abdominal cavity for 2-2.5°C lower temperature for sperm formation, Vas deferens, Prostate & Seminal vesicle secretions), Female Reproductive System (Ovaries release 1 egg per month, Fallopian tube/Oviduct site of fertilization, Uterus, Placenta disc structure providing glucose/O2 from mother to fetus and waste removal), Menstruation (shedding of uterine lining when egg is not fertilized), Contraceptive Methods (Barrier: Condoms, Chemical: Oral pills, Surgical: Vasectomy in males and Tubectomy in females, Copper-T IUCD).',
+    coreConceptsSummary: 'Asexual modes (Fission, Budding, Regeneration, Spore formation, Vegetative propagation), Sexual reproduction in flowering plants (LS of flower, Pollination, Pollen tube germination, Post-fertilization ovule->seed, ovary->fruit), Male & Female Human Reproductive Systems, Placenta, Contraceptive methods.',
     importantNCERTFigures: [
-      'NCERT Fig 8.7: Longitudinal section (LS) of a Flower showing all whorls',
-      'NCERT Fig 8.8: Germination of pollen on stigma and pollen tube growth',
-      'NCERT Fig 8.10: Human Male Reproductive System',
-      'NCERT Fig 8.11: Human Female Reproductive System'
+      'NCERT Fig 8.7: LS of Flower',
+      'NCERT Fig 8.8: Pollen germination on stigma',
+      'NCERT Fig 8.10: Male Reproductive System',
+      'NCERT Fig 8.11: Female Reproductive System'
     ],
     repeatedBoardTopics: [
-      'Draw LS of flower and label reproductive parts. What post-fertilization changes occur in ovary and ovule?',
-      'Draw pollen germination on stigma showing pollen tube entering female gamete',
-      'Structure and function of Placenta in human female pregnancy',
-      'Why are testes situated outside the abdominal cavity in scrotum?',
-      'Methods of contraception to prevent sexually transmitted diseases (STDs like Gonorrhoea, Syphilis, HIV-AIDS)'
+      'Draw LS of flower and label reproductive parts',
+      'Structure and function of Placenta during pregnancy',
+      'Why are testes located outside abdominal cavity in scrotum?'
     ],
     pyqCount: 42,
   },
   {
-    id: 'heredity',
+    id: 'bio-ch8',
+    chapterNumber: 8,
     name: 'Heredity and Evolution',
-    unitName: 'Unit II: World of Living (25 Marks)',
     subject: 'Science (Biology)',
+    unitName: 'Unit II: World of Living (25 Marks)',
     ncertCode: 'jesc108',
     officialPdfUrl: 'https://ncert.nic.in/textbook/pdf/jesc108.pdf',
     highYieldWeightage: '4-6 Marks',
-    coreConceptsSummary: 'Accumulation of variations during reproduction, Mendel\'s Experiments on Pea Plants (Pisum sativum): Monohybrid Cross (Tall TT × Dwarf tt -> F1 all Tall Tt; F1 selfing -> F2 Phenotypic ratio 3:1 Tall:Dwarf, Genotypic ratio 1:2:1 TT:Tt:tt), Dihybrid Cross (Round Yellow RRYY × Wrinkled Green rryy -> F2 Phenotypic ratio 9:3:3:1 Round Yellow:Round Green:Wrinkled Yellow:Wrinkled Green, Law of Independent Assortment), Dominant vs Recessive traits, Sex Determination in Human Beings (Females have 22 pairs + XX chromosomes producing only X eggs; Males have 22 pairs + XY chromosomes producing 50% X and 50% Y sperms; Father determines sex of child with 50% statistical probability).',
+    coreConceptsSummary: 'Mendel\'s experiments on pea plants: Monohybrid cross (3:1 phenotypic, 1:2:1 genotypic ratio), Dihybrid cross (9:3:3:1 ratio), Dominant vs Recessive alleles, Sex determination in humans (XX female, XY male, 50% probability).',
     importantNCERTFigures: [
-      'NCERT Fig 9.3: Monohybrid cross inheritance of traits for two generations (TT × tt)',
-      'NCERT Fig 9.6: Sex determination in human beings (XX and XY cross chart)'
+      'NCERT Fig 9.3: Monohybrid cross TT x tt',
+      'NCERT Fig 9.6: Sex determination in humans'
     ],
     repeatedBoardTopics: [
-      'Explain with a Punnett square cross why all progeny in F1 generation are tall when pure tall pea plant is crossed with dwarf pea plant',
-      'A man with blood group A marries a woman with blood group O. Can this information tell whether A or O is dominant? Why?',
-      'Show with flowchart how the sex of a child is determined in human beings. Why is father responsible for sex of baby?'
+      'Punnett square for Monohybrid cross for F1 and F2 generations',
+      'Flowchart for sex determination in humans. Why is father responsible?'
     ],
     pyqCount: 26,
   },
+  {
+    id: 'bio-ch13',
+    chapterNumber: 13,
+    name: 'Our Environment',
+    subject: 'Science (Biology)',
+    unitName: 'Unit V: Natural Resources (5 Marks)',
+    ncertCode: 'jesc113',
+    officialPdfUrl: 'https://ncert.nic.in/textbook/pdf/jesc113.pdf',
+    highYieldWeightage: '5 Marks',
+    coreConceptsSummary: 'Ecosystem, Food chain and food web, 10% law of energy transfer, Biological magnification of pesticides, Ozone layer depletion by CFCs, Biodegradable vs Non-biodegradable waste.',
+    importantNCERTFigures: [
+      'NCERT Fig 13.1: Food chains in nature',
+      'NCERT Fig 13.4: Trophic level energy pyramid'
+    ],
+    repeatedBoardTopics: [
+      'Numerical calculation using 10% law of energy transfer',
+      'What is Biological Magnification? Why top consumers accumulate highest toxins?',
+      'Ozone layer formation and Montreal Protocol treaty'
+    ],
+    pyqCount: 28,
+  },
 
   // ==========================================
-  // UNIT 3: NATURAL PHENOMENA (12 MARKS)
+  // SCIENCE - PHYSICS
   // ==========================================
   {
-    id: 'light-reflection-refraction',
+    id: 'phy-ch9',
+    chapterNumber: 9,
     name: 'Light – Reflection and Refraction',
-    unitName: 'Unit III: Natural Phenomena (12 Marks)',
     subject: 'Science (Physics)',
+    unitName: 'Unit III: Natural Phenomena (12 Marks)',
     ncertCode: 'jesc109',
     officialPdfUrl: 'https://ncert.nic.in/textbook/pdf/jesc109.pdf',
     highYieldWeightage: '9-11 Marks',
-    coreConceptsSummary: 'Reflection: Laws of reflection, Spherical mirrors: Concave (Converging, 6 cases of ray diagrams) and Convex (Diverging, wide rear view field), Mirror Formula: 1/f = 1/v + 1/u (f is negative for concave, positive for convex), Magnification: m = -v/u = h\'/h (m negative = real/inverted, m positive = virtual/erect). Refraction: Laws of refraction & Snell\'s Law (sin i / sin r = constant n21), Refractive Index: n = c/v, Refraction through rectangular glass slab with Lateral Displacement. Spherical Lenses: Convex (Converging, 6 cases) and Concave (Diverging), Lens Formula: 1/f = 1/v - 1/u, Lens Magnification: m = +v/u = h\'/h, Power of a Lens: P = 1/f(in meters) in Dioptres (D) (Convex lens P > 0, Concave lens P < 0).',
+    coreConceptsSummary: 'Spherical mirrors (Concave & Convex 6 ray diagram cases), Mirror Formula: 1/f = 1/v + 1/u, Magnification m = -v/u, Snell\'s Law & Refractive index, Refraction in glass slab with lateral displacement, Lens Formula: 1/f = 1/v - 1/u, Power of Lens P = 1/f(in m) in Dioptres.',
     importantNCERTFigures: [
-      'NCERT Fig 9.3 & 9.4: All 6 ray diagrams of Concave mirror (especially Object between P and F)',
-      'NCERT Fig 9.6 & 9.7: Ray diagrams of Convex lens (especially Object between O and F1 producing virtual magnified image - Simple Microscope)',
-      'NCERT Fig 9.10: Refraction through a rectangular glass slab and lateral displacement'
+      'NCERT Fig 9.3 & 9.4: Concave mirror 6 ray diagrams (Object between P and F)',
+      'NCERT Fig 9.6 & 9.7: Convex lens ray diagrams',
+      'NCERT Fig 9.10: Refraction through glass slab'
     ],
     repeatedBoardTopics: [
-      'Draw ray diagram for an object placed between focus and pole of concave mirror. State nature, position, and magnification',
-      'A concave lens of focal length 15 cm forms an image 10 cm from the lens. Calculate object distance u and draw ray diagram',
-      'Why is convex mirror used as rear-view mirror in vehicles? (Always forms erect diminished image and wide field of view)',
-      'Find focal length of a lens of power -2.0 D. What type of lens is this?'
+      'Draw ray diagram for concave mirror with object between P and F',
+      'Numerical on mirror formula with sign conventions',
+      'Lens power calculation with P = 1/f'
     ],
     pyqCount: 52,
   },
   {
-    id: 'human-eye',
-    name: 'The Human Eye and the Colourful World',
-    unitName: 'Unit III: Natural Phenomena (12 Marks)',
+    id: 'phy-ch10',
+    chapterNumber: 10,
+    name: 'The Human Eye and Colourful World',
     subject: 'Science (Physics)',
+    unitName: 'Unit III: Natural Phenomena (12 Marks)',
     ncertCode: 'jesc110',
     officialPdfUrl: 'https://ncert.nic.in/textbook/pdf/jesc110.pdf',
     highYieldWeightage: '5-7 Marks',
-    coreConceptsSummary: 'Human Eye: Cornea (thin membrane light enters), Iris (controls pupil size), Pupil (regulates amount of light), Eye lens (crystalline convex), Ciliary muscles (adjust focal length), Retina (screen with rods for light intensity and cones for color), Power of Accommodation (near point = 25 cm, far point = infinity). Defects of Vision: Myopia / Near-sightedness (causes: excessive curvature of cornea or elongation of eyeball; image formed in front of retina; correction: Concave lens), Hypermetropia / Far-sightedness (causes: focal length too long or eyeball too short; image formed behind retina; correction: Convex lens), Presbyopia (old age weakening of ciliary muscles; correction: Bifocal lens). Refraction through Prism: Angle of deviation D = (i + e) - A. Dispersion: White light splits into 7 colors (VIBGYOR) because different colors travel with different speeds in glass (Red bends least with longest wavelength, Violet bends most with shortest wavelength), Newton\'s double prism recombination experiment. Rainbow formation: Refraction + Dispersion at front droplet surface, Total Internal Reflection inside, and Refraction exiting raindrop. Atmospheric Refraction: Twinkling of stars (continuous change in refractive index of air layers), Apparent flattening of sun at sunrise/sunset, Advance sunrise (2 mins early) and delayed sunset (2 mins late). Scattering of Light: Tyndall effect, Blue color of sky (fine air particles scatter shorter blue wavelengths more: Intensity ∝ 1/λ^4), Red color of danger signal lights (least scattered by smoke and fog).',
+    coreConceptsSummary: 'Human Eye structure, Power of accommodation (Near point 25 cm), Myopia (Near-sightedness) & Hypermetropia (Far-sightedness) with corrective lens ray diagrams, Prism refraction & Angle of deviation, Dispersion (VIBGYOR) & Rainbow, Atmospheric refraction (Twinkling of stars), Scattering (Blue sky & Red danger signal).',
     importantNCERTFigures: [
-      'NCERT Fig 10.1: The Human Eye structure and internal parts',
-      'NCERT Fig 10.2: Myopia and its correction using concave lens (3 diagrams)',
-      'NCERT Fig 10.3: Hypermetropia and its correction using convex lens (3 diagrams)',
-      'NCERT Fig 10.4 & 10.5: Refraction of light through glass prism and dispersion of white light',
-      'NCERT Fig 10.6: Recombination of spectrum of white light using inverted prism',
-      'NCERT Fig 10.8: Rainbow formation in water droplet'
+      'NCERT Fig 10.1: Human Eye structure',
+      'NCERT Fig 10.2: Myopia and correction using Concave lens',
+      'NCERT Fig 10.3: Hypermetropia and correction using Convex lens',
+      'NCERT Fig 10.4 & 10.5: Prism dispersion VIBGYOR'
     ],
     repeatedBoardTopics: [
-      'Draw ray diagram to show (i) Myopic eye, (ii) Correction of myopia using a suitable lens. Write 2 causes of myopia',
-      'Why do stars twinkle but planets do not twinkle? Explain with atmospheric refraction',
-      'Why does the clear sky appear blue? Why does sky appear dark to an astronaut in space?',
-      'Explain with labeled ray diagram the dispersion of white light through a triangular glass prism'
+      'Ray diagrams for myopic eye and correction with concave lens',
+      'Why do stars twinkle but planets do not?',
+      'Why is clear sky blue and danger signal lights red?'
     ],
     pyqCount: 36,
   },
-
-  // ==========================================
-  // UNIT 4: EFFECTS OF CURRENT (13 MARKS)
-  // ==========================================
   {
-    id: 'electricity',
+    id: 'phy-ch11',
+    chapterNumber: 11,
     name: 'Electricity',
-    unitName: 'Unit IV: Effects of Current (13 Marks)',
     subject: 'Science (Physics)',
+    unitName: 'Unit IV: Effects of Current (13 Marks)',
     ncertCode: 'jesc111',
     officialPdfUrl: 'https://ncert.nic.in/textbook/pdf/jesc111.pdf',
     highYieldWeightage: '8-10 Marks',
-    coreConceptsSummary: 'Electric current I = Q/t in Amperes (A) measured by Ammeter connected in series (low resistance), Electric potential difference V = W/Q in Volts (V) measured by Voltmeter connected in parallel (high resistance), Ohm\'s Law: V = IR (V-I graph is straight line through origin with slope = R), Factors affecting Resistance: Length (R ∝ L), Area of cross-section (R ∝ 1/A), Nature of material (Resistivity ρ in Ω·m: R = ρL/A), Resistors in Series: Current I is constant, V = V1 + V2 + V3, Equivalent Rs = R1 + R2 + R3, Resistors in Parallel: Voltage V is constant, I = I1 + I2 + I3, Equivalent 1/Rp = 1/R1 + 1/R2 + 1/R3 (Parallel advantages in domestic wiring: independent switches, overall low resistance, same 220V across all appliances), Joule\'s Law of Heating: H = I^2 R t = V I t = (V^2/R) t in Joules (Applications: Electric heater, Tungsten filament bulb with inert N2/Ar gas, Electric Fuse wire with low melting point), Electric Power: P = VI = I^2 R = V^2 / R in Watts (W), Commercial unit of electrical energy: 1 kilowatt-hour (1 kWh) = 1 Board of Trade Unit = 3.6 × 10^6 Joules.',
+    coreConceptsSummary: 'Electric current I=Q/t, Potential difference V=W/Q, Ohm\'s Law V=IR, Resistivity R = ρL/A, Resistors in Series (Rs = R1+R2+R3) vs Parallel (1/Rp = 1/R1+1/R2+1/R3), Joule\'s Heating Law H = I^2 R t, Electric Power P = VI = I^2 R = V^2/R, 1 kWh = 3.6 x 10^6 J.',
     importantNCERTFigures: [
-      'NCERT Fig 11.2: Circuit diagram for verifying Ohm\'s Law (Battery, Key, Ammeter, Voltmeter, Resistor, Rheostat)',
-      'NCERT Fig 11.6 & 11.7: Resistors in Series and Resistors in Parallel circuits'
+      'NCERT Fig 11.2: Ohm\'s law verification circuit',
+      'NCERT Fig 11.6 & 11.7: Resistors in series and parallel circuits'
     ],
     repeatedBoardTopics: [
-      'Derive equivalent resistance for three resistors R1, R2, R3 connected in parallel',
-      'A piece of wire of resistance R is cut into 5 equal parts and connected in parallel. If new resistance is R\', find ratio R/R\' (= 25)',
-      'An electric lamp of 100 Ω, a toaster of 50 Ω, and a water filter of 500 Ω are connected in parallel to a 220 V source. Find total current and equivalent resistance',
-      'Why is tungsten used almost exclusively for filament of electric lamps? Why are alloy coils used in electric toasters instead of pure metals?'
+      'Derive equivalent resistance for three resistors in parallel',
+      'Wire cut into 5 equal parts and connected in parallel (R/R\' = 25)',
+      'Calculating power and energy cost of household electrical appliances'
     ],
     pyqCount: 55,
   },
   {
-    id: 'magnetic-effects',
+    id: 'phy-ch12',
+    chapterNumber: 12,
     name: 'Magnetic Effects of Electric Current',
-    unitName: 'Unit IV: Effects of Current (13 Marks)',
     subject: 'Science (Physics)',
+    unitName: 'Unit IV: Effects of Current (13 Marks)',
     ncertCode: 'jesc112',
     officialPdfUrl: 'https://ncert.nic.in/textbook/pdf/jesc112.pdf',
     highYieldWeightage: '6-8 Marks',
-    coreConceptsSummary: 'Magnetic field lines: Continuous closed curves emerging from North pole and merging at South pole outside magnet; field strength indicated by degree of closeness of lines; two field lines NEVER intersect (because compass needle cannot point in two directions at once). Right-Hand Thumb Rule (Thumb in current direction, curled fingers in magnetic field direction), Magnetic field due to a straight wire (concentric circles, B ∝ I, B ∝ 1/r), Magnetic field of a circular loop (concentric at edges, straight and uniform at center), Magnetic field inside a Solenoid (long coil of insulated copper wire; field inside is uniform straight parallel lines, behaves like a bar magnet, inserting soft iron core forms an Electromagnet). Force on a current-carrying conductor in a magnetic field: Maximum when conductor is perpendicular to field (F = BIl), Fleming\'s Left-Hand Rule (Thumb = Force/Motion, Forefinger = Magnetic Field B, Middle finger = Current I). Domestic Electric Circuits: Live wire (Red insulation, 220V), Neutral wire (Black, 0V), Earth wire (Green/Yellow, safety measure connected to metal body of appliances providing low resistance path to ground preventing electric shocks), Electric Fuse (Safety device based on Joule\'s heating, prevents damage during Overloading and Short-circuiting).',
+    coreConceptsSummary: 'Magnetic field lines and properties, Right-Hand Thumb Rule, Magnetic field of a straight wire and Solenoid (uniform parallel lines inside), Force on conductor in magnetic field (Fleming\'s Left-Hand Rule), Domestic circuits (Earth wire, Live, Neutral, Electric Fuse).',
     importantNCERTFigures: [
-      'NCERT Fig 12.6: Magnetic field lines around a straight current-carrying conductor (Right-hand thumb rule)',
-      'NCERT Fig 12.10: Magnetic field lines of a current-carrying Solenoid',
-      'NCERT Fig 12.13: Fleming\'s Left-Hand Rule orientation',
-      'NCERT Fig 12.14: Schematic diagram of common domestic circuit'
+      'NCERT Fig 12.6: Straight current-carrying conductor field pattern',
+      'NCERT Fig 12.10: Solenoid magnetic field lines',
+      'NCERT Fig 12.13: Fleming\'s Left-Hand Rule'
     ],
     repeatedBoardTopics: [
-      'State Fleming\'s Left-Hand Rule. Apply it to find direction of force on a proton moving horizontally into a magnetic field',
-      'What is a Solenoid? Draw its magnetic field lines. How does it behave like a bar magnet?',
-      'Why is an earth wire necessary in domestic circuits with metallic body appliances (refrigerator, toaster)?',
-      'Why do two magnetic field lines never intersect each other?'
+      'State Fleming\'s Left-Hand Rule and apply to moving charge/conductor',
+      'Draw magnetic field lines of Solenoid. Why is it similar to a bar magnet?',
+      'Why is earth wire necessary for appliances with metallic bodies?'
     ],
     pyqCount: 40,
   },
 
   // ==========================================
-  // UNIT 5: NATURAL RESOURCES (5 MARKS)
+  // MATHEMATICS (CODE 041)
   // ==========================================
   {
-    id: 'our-environment',
-    name: 'Our Environment',
-    unitName: 'Unit V: Natural Resources (5 Marks)',
-    subject: 'Science (Biology)',
-    ncertCode: 'jesc113',
-    officialPdfUrl: 'https://ncert.nic.in/textbook/pdf/jesc113.pdf',
-    highYieldWeightage: '5 Marks (Compulsory Section E / Case Study)',
-    coreConceptsSummary: 'Ecosystem components: Biotic (Producers green plants, Consumers herbivores/carnivores, Decomposers bacteria/fungi) and Abiotic (temperature, rainfall, soil). Food Chain and Food Web: Unidirectional flow of energy from Sun -> Autotrophs -> Herbivores -> Carnivores, 10% Law of Energy Transfer (Lindeman\'s Rule: Only 10% of energy is transferred to next trophic level, 90% lost as heat/metabolism; why food chains have only 3-4 trophic levels). Biological Magnification: Progressive accumulation of non-biodegradable toxic chemicals (pesticides like DDT) at each higher trophic level; highest concentration in top consumers (humans). Environmental Problems: Ozone Layer (O3 formed in stratosphere by UV radiation splitting O2 into O + O, and O + O2 -> O3; protects Earth from harmful UV causing skin cancer and cataract; Depleted by Chlorofluorocarbons CFCs used in refrigerants; Montreal Protocol 1987 froze CFC production), Managing Garbage: Biodegradable (broken down by biological enzyme action) vs Non-biodegradable waste (plastics).',
-    importantNCERTFigures: [
-      'NCERT Fig 13.1: Food chain in nature (Forest, Grassland, Pond)',
-      'NCERT Fig 13.2: Food Web consisting of interconnected food chains',
-      'NCERT Fig 13.4: Trophic levels pyramid showing 10% energy transfer'
-    ],
+    id: 'math-ch1',
+    chapterNumber: 1,
+    name: 'Real Numbers',
+    subject: 'Mathematics',
+    unitName: 'Unit I: Number Systems (6 Marks)',
+    ncertCode: 'jemh101',
+    officialPdfUrl: 'https://ncert.nic.in/textbook/pdf/jemh101.pdf',
+    highYieldWeightage: '6 Marks',
+    coreConceptsSummary: 'Fundamental Theorem of Arithmetic (Every composite number expressed as unique product of primes: HCF x LCM = a x b), Proof of irrationality of √2, √3, √5, 3+2√5 by contradiction method.',
+    importantNCERTFigures: [],
     repeatedBoardTopics: [
-      'State 10% Law. If 10,000 J of solar energy falls on green plants, how much energy is available to a snake in grass -> grasshopper -> frog -> snake chain?',
-      'What is Biological Magnification? Why do humans accumulate highest concentration of harmful pesticides?',
-      'How is ozone formed in the upper atmosphere? Name the chemical responsible for its depletion and international treaty signed to control it'
+      'Prove that √5 (or √3) is an irrational number by contradiction (Compulsory 3M question in every set!)',
+      'Find HCF and LCM of 96 and 404 using prime factorisation and verify HCF x LCM = Product of numbers'
+    ],
+    pyqCount: 25,
+  },
+  {
+    id: 'math-ch2',
+    chapterNumber: 2,
+    name: 'Polynomials',
+    subject: 'Mathematics',
+    unitName: 'Unit II: Algebra (20 Marks)',
+    ncertCode: 'jemh102',
+    officialPdfUrl: 'https://ncert.nic.in/textbook/pdf/jemh102.pdf',
+    highYieldWeightage: '4-5 Marks',
+    coreConceptsSummary: 'Geometrical meaning of zeroes (points where graph cuts X-axis), Relationship between zeroes and coefficients of quadratic polynomial ax^2 + bx + c: Sum of zeroes α + β = -b/a, Product of zeroes αβ = c/a, Forming quadratic polynomial: k[x^2 - (α+β)x + αβ].',
+    importantNCERTFigures: [],
+    repeatedBoardTopics: [
+      'If α and β are zeroes of polynomial 2x^2 - 5x + 7, find value of 1/α + 1/β and α^2 + β^2',
+      'Find zeroes of quadratic polynomial 6x^2 - 3 - 7x and verify relationship with coefficients'
+    ],
+    pyqCount: 22,
+  },
+  {
+    id: 'math-ch4',
+    chapterNumber: 4,
+    name: 'Quadratic Equations',
+    subject: 'Mathematics',
+    unitName: 'Unit II: Algebra (20 Marks)',
+    ncertCode: 'jemh104',
+    officialPdfUrl: 'https://ncert.nic.in/textbook/pdf/jemh104.pdf',
+    highYieldWeightage: '6-8 Marks',
+    coreConceptsSummary: 'Standard form ax^2 + bx + c = 0 (a ≠ 0), Solution by factorisation and Quadratic Formula: x = (-b ± √(b^2 - 4ac)) / (2a), Nature of roots via Discriminant D = b^2 - 4ac (D > 0: two distinct real roots, D = 0: two equal real roots, D < 0: no real roots), Word problems on speed/distance, age, work, and numbers.',
+    importantNCERTFigures: [],
+    repeatedBoardTopics: [
+      'Find value of k for which equation kx(x - 2) + 6 = 0 has two equal roots (D = 0)',
+      'Speed-time word problem: A train travels 360 km at uniform speed. If speed had been 5 km/h more, it would take 1 hour less. Find speed'
+    ],
+    pyqCount: 35,
+  },
+  {
+    id: 'math-ch5',
+    chapterNumber: 5,
+    name: 'Arithmetic Progressions (AP)',
+    subject: 'Mathematics',
+    unitName: 'Unit II: Algebra (20 Marks)',
+    ncertCode: 'jemh105',
+    officialPdfUrl: 'https://ncert.nic.in/textbook/pdf/jemh105.pdf',
+    highYieldWeightage: '6-8 Marks',
+    coreConceptsSummary: 'Standard form: a, a+d, a+2d..., nth term of an AP: a_n = a + (n-1)d, nth term from end: l - (n-1)d, Sum of first n terms: S_n = n/2 [2a + (n-1)d] = n/2 [a + l], nth term from sum: a_n = S_n - S_{n-1}.',
+    importantNCERTFigures: [],
+    repeatedBoardTopics: [
+      'Which term of the AP: 21, 18, 15... is -81? Also find if any term is 0',
+      'The sum of the 4th and 8th terms of an AP is 24 and sum of 6th and 10th terms is 44. Find first three terms'
+    ],
+    pyqCount: 32,
+  },
+  {
+    id: 'math-ch8',
+    chapterNumber: 8,
+    name: 'Introduction to Trigonometry',
+    subject: 'Mathematics',
+    unitName: 'Unit V: Trigonometry (12 Marks)',
+    ncertCode: 'jemh108',
+    officialPdfUrl: 'https://ncert.nic.in/textbook/pdf/jemh108.pdf',
+    highYieldWeightage: '6-8 Marks',
+    coreConceptsSummary: 'Trigonometric ratios (sin, cos, tan, cosec, sec, cot), Specific angle values at 0°, 30°, 45°, 60°, 90°, Trigonometric Identities: sin^2 θ + cos^2 θ = 1, 1 + tan^2 θ = sec^2 θ, 1 + cot^2 θ = cosec^2 θ.',
+    importantNCERTFigures: [],
+    repeatedBoardTopics: [
+      'Prove identity: (sin θ - 2 sin^3 θ) / (2 cos^3 θ - cos θ) = tan θ (Repeated in almost every board exam!)',
+      'Prove: (cos A / (1 + sin A)) + ((1 + sin A) / cos A) = 2 sec A',
+      'If tan (A + B) = √3 and tan (A - B) = 1/√3, find angles A and B'
+    ],
+    pyqCount: 40,
+  },
+  {
+    id: 'math-ch9',
+    chapterNumber: 9,
+    name: 'Some Applications of Trigonometry (Heights & Distances)',
+    subject: 'Mathematics',
+    unitName: 'Unit V: Trigonometry (12 Marks)',
+    ncertCode: 'jemh109',
+    officialPdfUrl: 'https://ncert.nic.in/textbook/pdf/jemh109.pdf',
+    highYieldWeightage: '4-5 Marks (Mandatory Case-Study / Section D)',
+    coreConceptsSummary: 'Line of sight, Angle of elevation (looking up from horizontal), Angle of depression (looking down from horizontal), Word problems with single and double right-angled triangles using tan 30°=1/√3, tan 45°=1, tan 60°=√3.',
+    importantNCERTFigures: [],
+    repeatedBoardTopics: [
+      'From a point on a bridge across a river, angles of depression of banks on opposite sides are 30° and 45°. If bridge is at height of 3 m, find width of river',
+      'A 1.2 m tall girl spots a balloon moving with wind at height of 88.2 m. Angle of elevation reduces from 60° to 30°. Find distance traveled by balloon'
+    ],
+    pyqCount: 28,
+  },
+  {
+    id: 'math-ch10',
+    chapterNumber: 10,
+    name: 'Circles',
+    subject: 'Mathematics',
+    unitName: 'Unit IV: Geometry (15 Marks)',
+    ncertCode: 'jemh110',
+    officialPdfUrl: 'https://ncert.nic.in/textbook/pdf/jemh110.pdf',
+    highYieldWeightage: '5-6 Marks',
+    coreConceptsSummary: 'Tangent to a circle is perpendicular to radius at point of contact (Theorem 10.1), Lengths of tangents drawn from an external point to a circle are equal (Theorem 10.2: AP = BP).',
+    importantNCERTFigures: [],
+    repeatedBoardTopics: [
+      'Prove Theorem 10.2: The lengths of tangents drawn from an external point to a circle are equal (Compulsory 3M/4M theorem proof!)',
+      'Prove that the parallelogram circumscribing a circle is a rhombus'
+    ],
+    pyqCount: 26,
+  },
+
+  // ==========================================
+  // SOCIAL SCIENCE (SST)
+  // ==========================================
+  {
+    id: 'sst-his-ch1',
+    chapterNumber: 1,
+    name: 'The Rise of Nationalism in Europe',
+    subject: 'Social Science',
+    unitName: 'History: India and the Contemporary World-II',
+    ncertCode: 'jess301',
+    officialPdfUrl: 'https://ncert.nic.in/textbook/pdf/jess301.pdf',
+    highYieldWeightage: '5-6 Marks',
+    coreConceptsSummary: 'French Revolution ideas of nation, Napoleonic Civil Code of 1804, Romanticism and national feelings, Unification of Germany (Otto von Bismarck) and Unification of Italy (Mazzini, Cavour, Garibaldi), Allegories of nations (Marianne & Germania), Balkan nationalist crisis leading to WWI.',
+    importantNCERTFigures: [],
+    repeatedBoardTopics: [
+      'Explain any five provisions of the Napoleonic Civil Code of 1804',
+      'Describe the process of Unification of Germany under leadership of Otto von Bismarck',
+      'How did Romanticism develop a particular form of nationalist sentiment in Europe?'
+    ],
+    pyqCount: 25,
+  },
+  {
+    id: 'sst-his-ch2',
+    chapterNumber: 2,
+    name: 'Nationalism in India',
+    subject: 'Social Science',
+    unitName: 'History: India and the Contemporary World-II',
+    ncertCode: 'jess302',
+    officialPdfUrl: 'https://ncert.nic.in/textbook/pdf/jess302.pdf',
+    highYieldWeightage: '6-8 Marks (Including Map Work)',
+    coreConceptsSummary: 'First World War impact, Satyagraha concept (Champaran, Kheda, Ahmedabad), Rowlatt Act & Jallianwala Bagh Massacre (13 April 1919 by General Dyer), Khilafat & Non-Cooperation Movement (1920-1922 Chauri Chaura withdrawal), Salt March & Civil Disobedience Movement (1930 Dandi March), Gandhi-Irwin Pact, Limits of Civil Disobedience (Dalits & Muslims), Sense of Collective Belonging (Bharat Mata painting by Abanindranath Tagore, Vande Mataram, folklore, tricolour flag).',
+    importantNCERTFigures: [],
+    repeatedBoardTopics: [
+      'Why did Mahatma Gandhi decide to call off the Non-Cooperation Movement? (Chauri Chaura incident 1922)',
+      'Describe the significance of the Salt March (Dandi March) in the Indian National Movement',
+      'Map pointing: Jallianwala Bagh (Amritsar), Dandi (Gujarat), Champaran (Bihar), Chauri Chaura (UP)'
+    ],
+    pyqCount: 35,
+  },
+  {
+    id: 'sst-pol-ch1',
+    chapterNumber: 1,
+    name: 'Power Sharing & Federalism',
+    subject: 'Social Science',
+    unitName: 'Democratic Politics-II (Civics)',
+    ncertCode: 'jess401',
+    officialPdfUrl: 'https://ncert.nic.in/textbook/pdf/jess401.pdf',
+    highYieldWeightage: '6-8 Marks',
+    coreConceptsSummary: 'Case studies of Belgium (Accommodation model: equal Dutch and French ministers) vs Sri Lanka (Majoritarianism favoring Sinhala leading to civil war), Why power sharing is desirable (Prudential vs Moral reasons), Forms of power sharing: Horizontal (Legislature, Executive, Judiciary), Vertical (Central, State, Local Panchayat), Social groups, Political parties and Pressure groups. Federalism: Key features of Indian Federalism (Union, State, Concurrent Lists), Decentralization amendment of 1992 (Panchayati Raj and Municipalities).',
+    importantNCERTFigures: [],
+    repeatedBoardTopics: [
+      'Compare the ways in which Belgium and Sri Lanka dealt with cultural diversity',
+      'Differentiate between Horizontal and Vertical division of powers with examples',
+      'Explain any five features of the Indian Federal system'
     ],
     pyqCount: 28,
   }
