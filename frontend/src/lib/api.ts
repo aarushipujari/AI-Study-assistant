@@ -38,9 +38,33 @@ export interface MCQQuestion {
   explanation: string;
 }
 
+export interface DiagramData {
+  title: string;
+  mermaid_code: string;
+  drawing_steps: string[];
+  labels_checklist: string[];
+  color_coding_guide: string[];
+  high_yield_mnemonics: string;
+  clinical_correlation: string;
+}
+
 export const api = {
   async getHealth() {
     const res = await fetch(`${API_BASE}/api/health`);
+    return res.json();
+  },
+
+  async getDiagram(params: {
+    subject: string;
+    topic: string;
+    diagram_type?: string;
+  }): Promise<DiagramData> {
+    const res = await fetch(`${API_BASE}/api/diagrams`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(params),
+    });
+    if (!res.ok) throw new Error('Diagram API error');
     return res.json();
   },
 

@@ -9,13 +9,14 @@ import { VivaTab } from '@/components/VivaTab';
 import { FlashcardsTab } from '@/components/FlashcardsTab';
 import { QuizTab } from '@/components/QuizTab';
 import { CheatSheetTab } from '@/components/CheatSheetTab';
+import { DiagramsTab } from '@/components/DiagramsTab';
 import { UploadModal } from '@/components/UploadModal';
-import { MessageSquare, Mic, Layers, HelpCircle, Zap, BookOpen, Trash2 } from 'lucide-react';
+import { MessageSquare, Mic, Layers, HelpCircle, Zap, BookOpen, Trash2, Palette } from 'lucide-react';
 
 export default function StudyAssistantPage() {
   const [subjects, setSubjects] = useState<SubjectInfo[]>([]);
   const [activeSubject, setActiveSubject] = useState<string>('');
-  const [activeTab, setActiveTab] = useState<'chat' | 'viva' | 'flashcards' | 'quiz' | 'cheatsheet'>('chat');
+  const [activeTab, setActiveTab] = useState<'chat' | 'viva' | 'flashcards' | 'quiz' | 'cheatsheet' | 'diagrams'>('chat');
   const [isUploadOpen, setIsUploadOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -85,7 +86,7 @@ export default function StudyAssistantPage() {
           <div className="text-5xl mb-2">📂</div>
           <h3 className="text-xl font-bold text-white uppercase font-mono tracking-wider">No Vault Data Ingested Yet</h3>
           <p className="text-slate-400 text-sm max-w-md mx-auto">
-            Ingest your lecture slides or textbook PDFs to unlock grounded AI chat, oral viva examiner, 3D holographic decks, and quiz arena.
+            Ingest your lecture slides or textbook PDFs to unlock grounded AI chat, oral viva examiner, 3D holographic decks, medical diagram generator, and quiz arena.
           </p>
           <button
             onClick={() => setIsUploadOpen(true)}
@@ -133,19 +134,20 @@ export default function StudyAssistantPage() {
             })}
           </div>
 
-          {/* Module Navigation Sub-Tabs */}
+          {/* Module Navigation Sub-Tabs (6 Modules) */}
           <div className="vault-panel p-1.5 rounded-2xl flex flex-wrap gap-1.5">
             {[
-              { id: 'chat', label: '💬 Dual-Stream AI Chat', icon: <MessageSquare size={15} /> },
-              { id: 'viva', label: '🎤 Oral Viva Voce Examiner', icon: <Mic size={15} /> },
-              { id: 'flashcards', label: '🗂️ 3D Flashcard Deck', icon: <Layers size={15} /> },
-              { id: 'quiz', label: '📝 Practice & Mock Quiz Arena', icon: <HelpCircle size={15} /> },
-              { id: 'cheatsheet', label: '⚡ Smart Cheat Sheet Suite', icon: <Zap size={15} /> },
+              { id: 'chat', label: '💬 Dual-Stream Chat', icon: <MessageSquare size={15} /> },
+              { id: 'diagrams', label: '🎨 Medical Diagrams & Draw Guides', icon: <Palette size={15} /> },
+              { id: 'viva', label: '🎤 Viva Voce Examiner', icon: <Mic size={15} /> },
+              { id: 'flashcards', label: '🗂️ 3D Flashcards', icon: <Layers size={15} /> },
+              { id: 'quiz', label: '📝 Practice Quiz Arena', icon: <HelpCircle size={15} /> },
+              { id: 'cheatsheet', label: '⚡ Smart Cheat Sheets', icon: <Zap size={15} /> },
             ].map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex-1 min-w-[160px] text-xs font-mono font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all ${
+                className={`flex-1 min-w-[145px] text-xs font-mono font-bold py-3 px-3.5 rounded-xl flex items-center justify-center gap-2 transition-all ${
                   activeTab === tab.id
                     ? 'vault-btn-primary text-white shadow-lg shadow-indigo-500/30'
                     : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
@@ -161,6 +163,7 @@ export default function StudyAssistantPage() {
           {activeSubject && currentSubjectInfo && (
             <div className="transition-all duration-300">
               {activeTab === 'chat' && <ChatTab subject={activeSubject} />}
+              {activeTab === 'diagrams' && <DiagramsTab subject={activeSubject} />}
               {activeTab === 'viva' && (
                 <VivaTab subject={activeSubject} sources={currentSubjectInfo.sources} />
               )}
@@ -187,7 +190,7 @@ export default function StudyAssistantPage() {
 
       {/* Footer */}
       <footer className="text-center text-xs text-slate-500 pt-8 pb-4 font-mono">
-        VAULTX STUDY ASSISTANT PRO v2.5 • FULL-STACK INTELLIGENCE ARCHITECTURE
+        VAULTX STUDY ASSISTANT PRO v2.5 • FULL-STACK INTELLIGENCE & VISUAL DIAGRAM ARCHITECTURE
       </footer>
     </main>
   );

@@ -890,13 +890,85 @@ else:
         with tab:
             key_prefix = subject.replace(" ", "_")
             
-            mod_chat, mod_viva, mod_flash, mod_quiz, mod_cheat = st.tabs([
+            mod_chat, mod_diag, mod_viva, mod_flash, mod_quiz, mod_cheat = st.tabs([
                 "💬 Dual-Stream AI Chat",
+                "🎨 MBBS & Medical Diagrams",
                 "🎤 Viva Voce Oral Examiner",
                 "🗂️ Interactive 3D Flashcards",
                 "📝 Practice & Mock Quiz Arena",
                 "⚡ Smart Cheat Sheet & Summary"
             ])
+
+            # MODULE: MEDICAL & VISUAL DIAGRAM SUITE
+            with mod_diag:
+                st.markdown(f"#### 🎨 MBBS & Visual Medical Diagram Suite — `{subject}`")
+                diag_t1, diag_t2 = st.columns([2, 1])
+                with diag_t1:
+                    diag_input = st.text_input(
+                        "Target Structure / Pathway / Organ:",
+                        placeholder="e.g., Circle of Willis, RAAS Pathway, Nephron Counter-Current, Brachial Plexus...",
+                        key=f"diag_in_{key_prefix}"
+                    )
+                with diag_t2:
+                    diag_proto = st.selectbox(
+                        "Protocol Type:",
+                        [
+                            "🩺 Anatomical Sketch & Step-by-Step Exam Drawing Guide",
+                            "🧬 Physiological & Biochemical Pathway Flowchart",
+                            "🏥 Clinical Diagnostic Algorithm",
+                            "⚡ System Architecture & Electrical Vectors"
+                        ],
+                        key=f"diag_proto_{key_prefix}"
+                    )
+
+                st.markdown("**💡 High-Yield Medical & Science Presets:**")
+                preset_cols = st.columns(4)
+                preset_topic = None
+                with preset_cols[0]:
+                    if st.button("🫀 Cardiac Conduction", key=f"med_p1_{key_prefix}", use_container_width=True):
+                        preset_topic = "Cardiac Conduction System & ECG Axis Vectors"
+                with preset_cols[1]:
+                    if st.button("🧠 Circle of Willis", key=f"med_p2_{key_prefix}", use_container_width=True):
+                        preset_topic = "Circle of Willis (Cerebral Arterial Supply)"
+                with preset_cols[2]:
+                    if st.button("🧪 RAAS Mechanism", key=f"med_p3_{key_prefix}", use_container_width=True):
+                        preset_topic = "Renin-Angiotensin-Aldosterone System (RAAS)"
+                with preset_cols[3]:
+                    if st.button("🫘 Nephron & Loop", key=f"med_p4_{key_prefix}", use_container_width=True):
+                        preset_topic = "Nephron & Counter-Current Multiplier"
+
+                active_diag_topic = preset_topic if preset_topic else diag_input
+
+                if st.button("🎨 Synthesize Diagram & 60-Sec Drawing Guide", key=f"btn_d_gen_{key_prefix}"):
+                    if not active_diag_topic.strip():
+                        st.error("Please enter or pick a topic to draw.")
+                    else:
+                        with st.spinner("Synthesizing anatomical vectors, step-by-step sketching walkthrough, and marks checklist..."):
+                            d_prompt = f"""You are a distinguished Professor of Medicine, Anatomy, and Physiology.
+The student needs to DRAW and memorize the medical/scientific diagram for: '{active_diag_topic}' in '{subject}'.
+Type: '{diag_proto}'.
+
+Provide a comprehensive study guide containing:
+1. 📊 Mermaid.js Flowchart (valid code starting with ```mermaid)
+2. 🎨 Step-by-Step 60-Second Exam Drawing Guide (Physical pencil strokes step-by-step)
+3. 🏷️ Essential Exam Labels Checklist (Marks scoring keys)
+4. 🖍️ Color Coding Rules (Arteries, Veins, Nerves, Duct, Solutes)
+5. 💡 High-Yield Clinical Mnemonic & Exam Traps
+"""
+                            diag_res = ask_llm(d_prompt, temperature=0.3)
+                            st.session_state[f"diag_data_{key_prefix}"] = diag_res
+                            st.rerun()
+
+                if f"diag_data_{key_prefix}" in st.session_state:
+                    st.markdown("""<div class="glass-card">""", unsafe_allow_html=True)
+                    st.markdown(st.session_state[f"diag_data_{key_prefix}"])
+                    st.markdown("""</div>""", unsafe_allow_html=True)
+                    st.download_button(
+                        label="📥 Download Diagram & Drawing Guide (.md)",
+                        data=st.session_state[f"diag_data_{key_prefix}"],
+                        file_name=f"{active_diag_topic or subject}_diagram_guide.md",
+                        mime="text/markdown"
+                    )
 
             # MODULE 1: CHAT
             with mod_chat:
