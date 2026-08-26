@@ -59,20 +59,9 @@ def init_chunks():
             except Exception:
                 pass
     
-    # Fallback built-in chunks if disk is unavailable on serverless
+    # Serverless starts with a clean slate until the user uploads their own notes
     if not all_chunks:
-        all_chunks = [
-            {
-                "text": "Unit 3 ALGEBRA AND LOGIC CIRCUITS: Binary numbers, Number base conversion and Hexadecimal Numbers, Complements, Basic definitions, Basic theorems and properties of Boolean Algebra, Boolean functions, Canonical and Standard forms, Digital Logic gates, DeMorgan's Laws, Ex-OR realization using NAND and NOR, K-maps (Upto 4 variable) COMBINATIONAL LOGIC: Introduction, Design procedure, Adders-Half adder, Full adder.",
-                "source": "unit 3 ppt.pdf",
-                "subject": "ece"
-            },
-            {
-                "text": "Superconductivity is a state of matter characterized by zero electrical resistance and the expulsion of magnetic flux fields (Meissner Effect) occurring in certain materials below a characteristic critical temperature Tc. Type-I superconductors show complete Meissner effect with a single critical field Hc, while Type-II superconductors have two critical fields Hc1 and Hc2 with a mixed/vortex state.",
-                "source": "Unit3Superconductivity.pdf",
-                "subject": "phy"
-            }
-        ]
+        all_chunks = []
 
 init_chunks()
 
