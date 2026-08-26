@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { OFFICIAL_NCERT_DIAGRAMS, NCERTDiagram } from '@/lib/class10-ncert-diagrams';
 import { NCERTTextbookIllustration } from './NCERTTextbookIllustrations';
 import { MarksAppPYQViewer } from './MarksAppPYQViewer';
+import { NCERTSolutionsViewer } from './NCERTSolutionsViewer';
 import { 
   GraduationCap, 
   CheckCircle2, 
@@ -11,15 +12,16 @@ import {
   Download, 
   Palette,
   FileText,
-  Pencil
+  Pencil,
+  BookOpen
 } from 'lucide-react';
 
 interface Class10TabProps {
-  initialView?: 'pyqs' | 'ncert_diagrams';
+  initialView?: 'pyqs' | 'ncert_solutions' | 'ncert_diagrams';
 }
 
 export function Class10Tab({ initialView = 'pyqs' }: Class10TabProps) {
-  const [subView, setSubView] = useState<'pyqs' | 'ncert_diagrams'>(initialView);
+  const [subView, setSubView] = useState<'pyqs' | 'ncert_solutions' | 'ncert_diagrams'>(initialView);
   const [selectedDiagramId, setSelectedDiagramId] = useState<string>(OFFICIAL_NCERT_DIAGRAMS[0].id);
 
   useEffect(() => {
@@ -63,7 +65,7 @@ ${activeDiagram.boardQuestionExamples.map((q) => `- ${q}`).join('\n')}
     <div className="space-y-4 font-sans text-slate-200">
       {/* Sub-View Switcher Pill Bar */}
       <div className="vault-panel p-1 rounded-xl flex items-center justify-between gap-2 border border-white/[0.08]">
-        <div className="flex items-center gap-1">
+        <div className="flex flex-wrap items-center gap-1">
           <button
             onClick={() => setSubView('pyqs')}
             className={`px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 text-xs font-medium transition ${
@@ -73,7 +75,18 @@ ${activeDiagram.boardQuestionExamples.map((q) => `- ${q}`).join('\n')}
             }`}
           >
             <FileText size={14} />
-            <span>MARKS App PYQ Practice</span>
+            <span>MARKS Board PYQs (2018–2024)</span>
+          </button>
+          <button
+            onClick={() => setSubView('ncert_solutions')}
+            className={`px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 text-xs font-medium transition ${
+              subView === 'ncert_solutions'
+                ? 'bg-emerald-600 text-white font-semibold shadow-sm'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]'
+            }`}
+          >
+            <BookOpen size={14} />
+            <span>NCERT Exercises & Solved Examples</span>
           </button>
           <button
             onClick={() => setSubView('ncert_diagrams')}
@@ -88,7 +101,7 @@ ${activeDiagram.boardQuestionExamples.map((q) => `- ${q}`).join('\n')}
           </button>
         </div>
 
-        <span className="text-[11px] font-mono text-slate-400 px-3 hidden sm:inline">
+        <span className="text-[11px] font-mono text-slate-400 px-3 hidden lg:inline">
           CBSE 10th Boards 2024-25
         </span>
       </div>
@@ -99,7 +112,12 @@ ${activeDiagram.boardQuestionExamples.map((q) => `- ${q}`).join('\n')}
       {subView === 'pyqs' && <MarksAppPYQViewer />}
 
       {/* ========================================================
-          2. SUBVIEW 2: OFFICIAL NCERT TEXTBOOK FIGURE BLUEPRINT
+          2. SUBVIEW 2: NCERT EXERCISE & SOLVED EXAMPLES
+         ======================================================== */}
+      {subView === 'ncert_solutions' && <NCERTSolutionsViewer />}
+
+      {/* ========================================================
+          3. SUBVIEW 3: OFFICIAL NCERT TEXTBOOK FIGURE BLUEPRINT
          ======================================================== */}
       {subView === 'ncert_diagrams' && (
         <div className="space-y-4">

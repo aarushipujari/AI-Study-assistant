@@ -136,8 +136,13 @@ export default function StudyAssistantPage() {
             {[
               {
                 id: 'class10_pyqs',
-                label: 'CBSE Board PYQ Bank (2018–2024)',
+                label: 'MARKS Board PYQ Bank',
                 icon: <GraduationCap size={15} />,
+              },
+              {
+                id: 'class10_ncert',
+                label: 'NCERT Examples & Exercises',
+                icon: <BookOpen size={15} />,
               },
               {
                 id: 'class10_diagrams',
@@ -163,7 +168,7 @@ export default function StudyAssistantPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex-1 min-w-[170px] text-xs font-sans font-medium py-2.5 px-3 rounded-lg flex items-center justify-center gap-2 transition ${
+                className={`flex-1 min-w-[150px] text-xs font-sans font-medium py-2.5 px-3 rounded-lg flex items-center justify-center gap-2 transition ${
                   activeTab === tab.id
                     ? 'bg-indigo-600 text-white font-semibold shadow-sm'
                     : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]'
@@ -178,6 +183,7 @@ export default function StudyAssistantPage() {
           {/* Module Content */}
           <div className="transition-all duration-300">
             {activeTab === 'class10_pyqs' && <Class10Tab initialView="pyqs" />}
+            {activeTab === 'class10_ncert' && <Class10Tab initialView="ncert_solutions" />}
             {activeTab === 'class10_diagrams' && (
               <Class10Tab initialView="ncert_diagrams" />
             )}
