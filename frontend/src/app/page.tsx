@@ -136,27 +136,27 @@ export default function StudyAssistantPage() {
             {[
               {
                 id: 'class10_pyqs',
-                label: '🎯 CBSE Board PYQ Bank (2018–2024)',
+                label: 'CBSE Board PYQ Bank (2018–2024)',
                 icon: <GraduationCap size={15} />,
               },
               {
                 id: 'class10_diagrams',
-                label: '🎨 Ray Diagrams & Biology Sketches',
+                label: 'NCERT Diagrams & Ray Optics',
                 icon: <Palette size={15} />,
               },
               {
                 id: 'class10_chat',
-                label: '💬 NCERT AI Doubt Solver',
+                label: 'NCERT AI Doubt Solver',
                 icon: <MessageSquare size={15} />,
               },
               {
                 id: 'class10_flash',
-                label: '🗂️ 3D Board Formula Decks',
+                label: '3D Board Formula Decks',
                 icon: <Layers size={15} />,
               },
               {
                 id: 'class10_quiz',
-                label: '📝 CBSE Mock Exam Arena',
+                label: 'CBSE Mock Exam Arena',
                 icon: <HelpCircle size={15} />,
               },
             ].map((tab) => (

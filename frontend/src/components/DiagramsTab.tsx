@@ -14,7 +14,9 @@ import {
   Lightbulb, 
   Activity, 
   ArrowRight,
-  Pencil
+  Pencil,
+  GraduationCap,
+  Zap
 } from 'lucide-react';
 
 interface DiagramsTabProps {
@@ -22,12 +24,34 @@ interface DiagramsTabProps {
 }
 
 export function DiagramsTab({ subject }: DiagramsTabProps) {
+  const isClass10 = subject.toLowerCase().includes('class 10') || subject.toLowerCase().includes('cbse') || subject.toLowerCase().includes('ncert');
+
   const [topic, setTopic] = useState('');
-  const [diagramType, setDiagramType] = useState('🩺 Anatomical Sketch & Exam Drawing Guide');
+  const [diagramType, setDiagramType] = useState(
+    isClass10 
+      ? '📐 NCERT Ray Diagram & Board Exam Drawing Guide' 
+      : '🩺 Anatomical Sketch & Exam Drawing Guide'
+  );
   const [diagramData, setDiagramData] = useState<DiagramData | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const quickMedicalTopics = [
+  // 10th Standard Specific NCERT Topics
+  const class10PresetTopics = [
+    { title: 'Concave Mirror Ray Diagram (Object between P and F)', icon: '🪞' },
+    { title: 'Myopia & Hypermetropia Eye Defects and Lens Correction', icon: '🔍' },
+    { title: 'Refraction through Prism & VIBGYOR Dispersion', icon: '🌈' },
+    { title: 'Human Heart Sectional View & Double Circulation', icon: '🫀' },
+    { title: 'Structure of a Nephron & Urine Formation', icon: '🫘' },
+    { title: 'Magnetic Field Lines of a Current-Carrying Solenoid', icon: '⚡' },
+    { title: 'Electrolysis of Water (2:1 H2 to O2 Volume Ratio)', icon: '🧪' },
+    { title: 'Soap Micelle Cleansing Mechanism on Oil Droplet', icon: '🧼' },
+    { title: 'Reflex Arc Pathway & Neuron Synapse', icon: '🧠' },
+    { title: 'Longitudinal Section (LS) of a Flower', icon: '🌸' },
+    { title: 'Ohm\'s Law Verification Circuit Diagram', icon: '🔌' },
+    { title: 'Open and Closed Stomatal Pore with Guard Cells', icon: '🔬' },
+  ];
+
+  const medicalPresetTopics = [
     { title: 'Renin-Angiotensin-Aldosterone System (RAAS)', icon: '🧪' },
     { title: 'Nephron & Counter-Current Mechanism', icon: '🫘' },
     { title: 'Cardiac Conduction System & ECG Vectors', icon: '🫀' },
@@ -38,6 +62,8 @@ export function DiagramsTab({ subject }: DiagramsTabProps) {
     { title: 'Action Potential Phases in Cardiac Myocyte', icon: '📈' },
   ];
 
+  const activePresets = isClass10 ? class10PresetTopics : medicalPresetTopics;
+
   const handleGenerate = async (topicToFetch?: string) => {
     const t = topicToFetch || topic;
     if (!t.trim() || loading) return;
@@ -47,14 +73,14 @@ export function DiagramsTab({ subject }: DiagramsTabProps) {
 
     try {
       const res = await api.getDiagram({
-        subject,
+        subject: isClass10 ? 'Class 10 CBSE Science (NCERT Textbook)' : subject,
         topic: t,
         diagram_type: diagramType,
       });
       setDiagramData(res);
       setTopic(t);
     } catch {
-      alert('Error synthesizing medical diagram and drawing guide.');
+      alert('Error synthesizing NCERT diagram and drawing guide.');
     } finally {
       setLoading(false);
     }
@@ -63,27 +89,29 @@ export function DiagramsTab({ subject }: DiagramsTabProps) {
   const handleExport = () => {
     if (!diagramData) return;
     const text = `
-# 🩺 ${diagramData.title}
-**Subject:** ${subject.toUpperCase()} | **Type:** ${diagramType}
+# 📐 ${diagramData.title}
+**Class:** ${isClass10 ? 'Class 10 CBSE Science (NCERT)' : subject} | **Protocol Type:** ${diagramType}
 
-## 📊 Mermaid Diagram Code:
+---
+
+## 📊 Schematic Architecture:
 \`\`\`mermaid
 ${diagramData.mermaid_code}
 \`\`\`
 
-## 🎨 Step-by-Step 60-Second Exam Drawing Guide:
+## ✏️ Step-by-Step 60-Second Board Drawing Guide:
 ${diagramData.drawing_steps.map((s, i) => `${i + 1}. ${s}`).join('\n')}
 
-## 🏷️ Essential Labels & Marks Checklist:
+## 🏷️ Mandatory CBSE Labels & Marks Checklist:
 ${diagramData.labels_checklist.map((l) => `- [x] ${l}`).join('\n')}
 
-## 🖍️ Color Coding Guide:
+## 🖍️ Color Coding / Ray Arrow Guidelines:
 ${diagramData.color_coding_guide.map((c) => `- ${c}`).join('\n')}
 
-## 💡 High-Yield Clinical Mnemonic:
+## 💡 High-Yield Board Exam Mnemonic / Sign Conventions:
 ${diagramData.high_yield_mnemonics}
 
-## 🏥 Clinical & Exam Correlation:
+## ⚠️ CBSE Board Exam Pitfalls & Traps:
 ${diagramData.clinical_correlation}
     `.trim();
 
@@ -91,47 +119,51 @@ ${diagramData.clinical_correlation}
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${diagramData.title.replace(/\s+/g, '_')}_drawing_guide.md`;
+    a.download = `CBSE_Class10_${diagramData.title.replace(/\s+/g, '_')}_Guide.md`;
     a.click();
   };
 
   return (
     <div className="space-y-6">
       {/* Configuration Header */}
-      <div className="vault-panel rounded-3xl p-6 space-y-4">
+      <div className="vault-panel rounded-3xl p-6 md:p-8 space-y-5 border border-amber-500/30">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-2xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center border border-cyan-500/30">
-              <Stethoscope size={20} />
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center border border-amber-500/30 shrink-0">
+              {isClass10 ? <GraduationCap size={26} /> : <Stethoscope size={24} />}
             </div>
             <div>
-              <h3 className="text-base font-bold text-white uppercase tracking-wider font-mono">
-                MBBS & Medical Visual Diagram Suite
+              <h3 className="text-lg md:text-xl font-bold text-white uppercase tracking-wider font-mono">
+                {isClass10 
+                  ? 'CBSE Class 10 NCERT Diagrams & Ray Optics Suite' 
+                  : 'MBBS & Medical Visual Diagram Suite'}
               </h3>
               <p className="text-xs text-slate-400">
-                Interactive flowcharts, step-by-step sketching instructions, and exam scoring label checklists
+                {isClass10
+                  ? 'Official 10th standard ray optics, biology sketches, circuit diagrams & 60-second pencil drawing guides'
+                  : 'Interactive flowcharts, step-by-step sketching instructions, and exam scoring label checklists'}
               </p>
             </div>
           </div>
-          <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-md bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 uppercase">
-            ANATOMY / PHYSIO ENGINE
+          <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/30 uppercase shrink-0">
+            {isClass10 ? '10TH STD NCERT ENGINE' : 'ANATOMY / PHYSIO ENGINE'}
           </span>
         </div>
 
-        {/* Quick Topic Chips */}
+        {/* Quick 10th Standard Preset Chips */}
         <div>
-          <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider block mb-2">
-            ⚡ High-Yield MBBS & Science Preset Diagrams:
+          <span className="text-xs font-mono font-bold text-amber-300 uppercase tracking-wider block mb-2">
+            ⚡ High-Yield Class 10th NCERT Textbook Diagrams:
           </span>
-          <div className="flex flex-wrap gap-2">
-            {quickMedicalTopics.map((item, idx) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+            {activePresets.map((item, idx) => (
               <button
                 key={idx}
                 onClick={() => handleGenerate(item.title)}
-                className="text-xs font-mono font-semibold px-3 py-1.5 rounded-xl bg-slate-900/80 hover:bg-indigo-950 text-indigo-300 border border-indigo-500/25 transition transform hover:-translate-y-0.5 flex items-center gap-1.5 shadow-sm"
+                className="text-xs font-mono font-semibold p-2.5 rounded-xl bg-slate-900/80 hover:bg-amber-950/40 text-amber-200 border border-amber-500/25 transition transform hover:-translate-y-0.5 flex items-center gap-2 text-left shadow-sm"
               >
-                <span>{item.icon}</span>
-                <span>{item.title}</span>
+                <span className="text-base shrink-0">{item.icon}</span>
+                <span className="truncate">{item.title}</span>
               </button>
             ))}
           </div>
@@ -141,15 +173,19 @@ ${diagramData.clinical_correlation}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
           <div className="md:col-span-2">
             <label className="block text-xs font-mono font-bold text-slate-300 mb-1.5 uppercase">
-              Target Organ / Pathway / Mechanism to Draw
+              {isClass10 ? 'Target Class 10th Topic to Draw' : 'Target Organ / Pathway to Draw'}
             </label>
             <input
               type="text"
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleGenerate()}
-              placeholder="e.g., Circle of Willis, RAAS, Brachial Plexus, Cardiac Cycle..."
-              className="w-full bg-slate-900/90 border border-slate-700 text-white text-sm rounded-xl p-3 focus:outline-none focus:border-cyan-500 font-mono"
+              placeholder={
+                isClass10
+                  ? 'e.g. Concave mirror between P and F, Human Heart, Nephron, Refraction in Prism, Stomata...'
+                  : 'e.g. Circle of Willis, RAAS, Brachial Plexus, Cardiac Cycle...'
+              }
+              className="w-full bg-slate-900/90 border border-slate-700 text-white text-xs md:text-sm rounded-xl p-3 focus:outline-none focus:border-amber-400 font-mono"
             />
           </div>
 
@@ -160,12 +196,23 @@ ${diagramData.clinical_correlation}
             <select
               value={diagramType}
               onChange={(e) => setDiagramType(e.target.value)}
-              className="w-full bg-slate-900/90 border border-slate-700 text-slate-200 text-xs rounded-xl p-3 focus:outline-none focus:border-cyan-500 font-mono"
+              className="w-full bg-slate-900/90 border border-slate-700 text-slate-200 text-xs rounded-xl p-3 focus:outline-none focus:border-amber-400 font-mono"
             >
-              <option>🩺 Anatomical Sketch & Exam Drawing Guide</option>
-              <option>🧬 Physiological & Biochemical Flowchart</option>
-              <option>🏥 Clinical Diagnostic Pathway / Algorithm</option>
-              <option>⚡ System Circuit & Vector Architecture</option>
+              {isClass10 ? (
+                <>
+                  <option>📐 NCERT Ray Diagram & Board Exam Drawing Guide</option>
+                  <option>🧬 NCERT Biology Anatomical Sketch (Heart, Nephron, Stomata)</option>
+                  <option>🧪 Chemistry Apparatus Setup & Electron Dot Structure</option>
+                  <option>⚡ Electrical Circuit & Magnetic Field Lines</option>
+                </>
+              ) : (
+                <>
+                  <option>🩺 Anatomical Sketch & Exam Drawing Guide</option>
+                  <option>🧬 Physiological & Biochemical Flowchart</option>
+                  <option>🏥 Clinical Diagnostic Pathway / Algorithm</option>
+                  <option>⚡ System Circuit & Vector Architecture</option>
+                </>
+              )}
             </select>
           </div>
         </div>
@@ -173,17 +220,17 @@ ${diagramData.clinical_correlation}
         <button
           onClick={() => handleGenerate()}
           disabled={loading || !topic.trim()}
-          className="vault-btn-primary text-white text-xs font-bold font-mono px-6 py-3 rounded-2xl flex items-center gap-2 uppercase tracking-wider disabled:opacity-50"
+          className="vault-btn-emerald text-white text-xs font-bold font-mono px-6 py-3.5 rounded-2xl flex items-center gap-2 uppercase tracking-wider disabled:opacity-50 cursor-pointer"
         >
-          <Pencil size={15} /> Synthesize Interactive Diagram & Drawing Guide
+          <Pencil size={15} /> Synthesize 10th Standard Diagram & 60-Sec Sketch Guide
         </button>
       </div>
 
       {/* Loading State */}
       {loading && (
-        <div className="vault-panel p-8 rounded-3xl flex flex-col items-center justify-center gap-3 text-slate-300 font-mono text-xs">
-          <div className="w-8 h-8 border-3 border-cyan-400 border-t-transparent rounded-full animate-spin" />
-          <span>Generating anatomical vectors, step-by-step sketching breakdown, and mark-scoring checklist...</span>
+        <div className="vault-panel p-10 rounded-3xl flex flex-col items-center justify-center gap-3 text-slate-300 font-mono text-xs">
+          <div className="w-8 h-8 border-3 border-amber-400 border-t-transparent rounded-full animate-spin" />
+          <span>Generating 10th standard NCERT diagram, step-by-step sketching breakdown, and CBSE marking checklist...</span>
         </div>
       )}
 
@@ -191,10 +238,10 @@ ${diagramData.clinical_correlation}
       {diagramData && (
         <div className="space-y-6">
           {/* Header Banner */}
-          <div className="vault-panel rounded-3xl p-6 border-l-4 border-l-cyan-400 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div className="vault-panel rounded-3xl p-6 border-l-4 border-l-amber-400 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
-              <span className="text-[11px] font-mono font-bold text-cyan-400 uppercase tracking-widest">
-                OFFICIAL EXAM DIAGRAM BLUEPRINT
+              <span className="text-[11px] font-mono font-bold text-amber-400 uppercase tracking-widest">
+                OFFICIAL CBSE CLASS 10 BOARD BLUEPRINT
               </span>
               <h3 className="text-xl md:text-2xl font-black text-white mt-1">{diagramData.title}</h3>
             </div>
@@ -202,28 +249,28 @@ ${diagramData.clinical_correlation}
               onClick={handleExport}
               className="vault-btn-emerald text-white text-xs font-mono font-bold px-4 py-2.5 rounded-xl flex items-center gap-2"
             >
-              <Download size={14} /> Export Drawing Sheet (.md)
+              <Download size={14} /> Export 10th Drawing Guide (.md)
             </button>
           </div>
 
-          {/* 1. Interactive Vector Flowchart / Pathway */}
+          {/* 1. Schematic Flow */}
           <div className="vault-panel rounded-3xl p-6 space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono font-bold text-indigo-300 flex items-center gap-2 uppercase tracking-wider">
-                <Eye size={15} /> 1. Interactive Visual Pathway / Structural Vector
+                <Eye size={15} /> 1. Functional Schematic & Flow Architecture
               </span>
               <span className="text-[10px] font-mono bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded border border-indigo-500/30">
-                MERMAID VECTOR ENGINE
+                NCERT VECTOR ENGINE
               </span>
             </div>
             <MermaidViewer chart={diagramData.mermaid_code} />
           </div>
 
-          {/* 2. Step-by-Step 60-Second Exam Sketching Guide */}
+          {/* 2. Step-by-Step 60-Second Sketching Walkthrough & Labels */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="vault-panel rounded-3xl p-6 space-y-4">
               <span className="text-xs font-mono font-bold text-emerald-400 flex items-center gap-2 uppercase tracking-wider">
-                <Pencil size={15} /> 2. Step-by-Step 60-Second Drawing Walkthrough
+                <Pencil size={15} /> 2. Step-by-Step 60-Second Pencil & Ruler Sketching Guide
               </span>
               <div className="space-y-3">
                 {diagramData.drawing_steps.map((step, idx) => (
@@ -243,7 +290,7 @@ ${diagramData.clinical_correlation}
             {/* 3. Essential Labels & Mark-Scoring Checklist */}
             <div className="vault-panel rounded-3xl p-6 space-y-4">
               <span className="text-xs font-mono font-bold text-purple-400 flex items-center gap-2 uppercase tracking-wider">
-                <CheckCircle2 size={15} /> 3. Essential Exam Labels Checklist (Scores Full Marks)
+                <CheckCircle2 size={15} /> 3. Mandatory CBSE Marking Scheme Labels (Guarantees Full Marks)
               </span>
               <div className="space-y-2.5">
                 {diagramData.labels_checklist.map((label, idx) => (
@@ -257,11 +304,11 @@ ${diagramData.clinical_correlation}
                 ))}
               </div>
 
-              {/* Color Coding Rules */}
+              {/* Color Coding & Arrows */}
               {diagramData.color_coding_guide.length > 0 && (
                 <div className="mt-4 pt-4 border-t border-slate-800">
                   <span className="text-xs font-mono font-bold text-amber-400 block mb-2 uppercase">
-                    🖍️ Anatomical Pen/Color Guidelines:
+                    🖍️ Ray Arrows & Label Leader Line Rules:
                   </span>
                   <div className="space-y-1">
                     {diagramData.color_coding_guide.map((col, idx) => (
@@ -275,20 +322,20 @@ ${diagramData.clinical_correlation}
             </div>
           </div>
 
-          {/* 4. Clinical Mnemonic & High-Yield Exam Pegs */}
+          {/* 4. Board Traps & Mnemonics */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="vault-panel rounded-3xl p-5 border border-amber-500/30 bg-amber-950/15 space-y-2">
               <span className="text-xs font-mono font-bold text-amber-300 flex items-center gap-1.5 uppercase">
-                <Lightbulb size={15} /> 💡 High-Yield Clinical Mnemonic
+                <Lightbulb size={15} /> 💡 High-Yield Board Exam Mnemonic
               </span>
               <p className="text-xs text-slate-200 leading-relaxed font-sans">
                 {diagramData.high_yield_mnemonics}
               </p>
             </div>
 
-            <div className="vault-panel rounded-3xl p-5 border border-cyan-500/30 bg-cyan-950/15 space-y-2">
-              <span className="text-xs font-mono font-bold text-cyan-300 flex items-center gap-1.5 uppercase">
-                <Activity size={15} /> 🏥 MBBS Ward & Exam Correlation
+            <div className="vault-panel rounded-3xl p-5 border border-rose-500/30 bg-rose-950/15 space-y-2">
+              <span className="text-xs font-mono font-bold text-rose-300 flex items-center gap-1.5 uppercase">
+                <Activity size={15} /> ⚠️ Critical CBSE Board Traps & Mistakes
               </span>
               <p className="text-xs text-slate-200 leading-relaxed font-sans">
                 {diagramData.clinical_correlation}
