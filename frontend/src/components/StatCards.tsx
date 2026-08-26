@@ -27,72 +27,62 @@ export function StatCards({
 
   const cards = [
     {
-      icon: <Terminal className="text-cyan-400" size={20} />,
-      badge: 'LIVE PROTOCOL',
-      badgeClass: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30',
+      icon: <Terminal className="text-indigo-400" size={18} />,
+      badge: 'ACTIVE',
       value: questionsAsked,
-      label: 'Questions Decoded',
-      barColor: 'from-cyan-500 to-blue-600',
+      label: 'Questions Solved',
       barPct: questionsPct,
     },
     {
-      icon: <Mic className="text-emerald-400" size={20} />,
-      badge: `${vivaPct}% EXAM READINESS`,
-      badgeClass: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
+      icon: <Mic className="text-indigo-400" size={18} />,
+      badge: `${vivaPct}% READY`,
       value: vivaTotal > 0 ? `${vivaScore}/${vivaTotal}` : '0/0',
       subVal: 'pts',
-      label: 'Viva Voce Score',
-      barColor: 'from-emerald-500 to-teal-500',
+      label: 'Viva Score',
       barPct: vivaPct,
     },
     {
-      icon: <ShieldCheck className="text-purple-400" size={20} />,
-      badge: `${flashPct}% RETENTION`,
-      badgeClass: 'bg-purple-500/15 text-purple-300 border-purple-500/30',
+      icon: <ShieldCheck className="text-indigo-400" size={18} />,
+      badge: `${flashPct}% MEMORY`,
       value: flashcardsTotal > 0 ? `${flashcardsMastered}/${flashcardsTotal}` : '0/0',
       label: 'Flashcards Mastered',
-      barColor: 'from-purple-500 to-pink-500',
       barPct: flashPct,
     },
     {
-      icon: <Timer className="text-amber-400" size={20} />,
-      badge: 'FOCUS MATRIX',
-      badgeClass: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
+      icon: <Timer className="text-indigo-400" size={18} />,
+      badge: 'LOGGED',
       value: studyMinutes,
       subVal: 'mins',
-      label: 'Deep Focus Logged',
-      barColor: 'from-amber-500 to-orange-500',
+      label: 'Focus Time',
       barPct: timePct,
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 mb-6">
       {cards.map((c, i) => (
         <div
           key={i}
-          className="vault-panel vault-panel-glow rounded-3xl p-5 relative overflow-hidden group"
+          className="vault-panel rounded-2xl p-4 relative overflow-hidden transition hover:border-white/20"
         >
-          <div className="flex items-center justify-between mb-3">
-            <div className="w-10 h-10 rounded-xl bg-slate-900/90 border border-slate-700/60 flex items-center justify-center shadow-inner">
+          <div className="flex items-center justify-between mb-2.5">
+            <div className="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
               {c.icon}
             </div>
-            <span
-              className={`text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-md border ${c.badgeClass}`}
-            >
+            <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-white/[0.05] text-slate-400 border border-white/[0.08]">
               {c.badge}
             </span>
           </div>
 
           <div className="flex items-baseline gap-1 mt-1">
-            <span className="text-3xl font-black text-white font-mono tracking-tight">{c.value}</span>
-            {c.subVal && <span className="text-xs font-mono text-slate-400 font-semibold">{c.subVal}</span>}
+            <span className="text-2xl font-bold text-white font-mono tracking-tight">{c.value}</span>
+            {c.subVal && <span className="text-xs font-mono text-slate-400">{c.subVal}</span>}
           </div>
-          <p className="text-xs font-semibold text-slate-400 mt-1 uppercase tracking-wider font-mono">{c.label}</p>
+          <p className="text-xs text-slate-400 mt-0.5">{c.label}</p>
 
-          <div className="w-full bg-slate-900 rounded-full h-1.5 mt-3.5 overflow-hidden border border-slate-800">
+          <div className="w-full bg-slate-900 rounded-full h-1 mt-3 overflow-hidden">
             <div
-              className={`h-full bg-gradient-to-r ${c.barColor} rounded-full transition-all duration-500 shadow-sm`}
+              className="h-full bg-indigo-500 rounded-full transition-all duration-300"
               style={{ width: `${c.barPct}%` }}
             />
           </div>

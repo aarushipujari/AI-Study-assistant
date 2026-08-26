@@ -12,20 +12,20 @@ export function NCERTTextbookIllustration({ figureId }: IllustrationProps) {
   return (
     <div className="space-y-3">
       {/* Label Toggle Bar */}
-      <div className="flex items-center justify-between px-2">
-        <span className="text-[11px] font-mono text-slate-400 font-bold uppercase tracking-wider">
-          📐 NCERT Textbook Exact Vector Plate
+      <div className="flex items-center justify-between px-1">
+        <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider font-medium">
+          NCERT Vector Plate
         </span>
         <button
           onClick={() => setShowLabels(!showLabels)}
-          className="text-xs font-mono px-3 py-1 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-amber-300 font-bold transition"
+          className="text-xs px-3 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-white/[0.08] text-slate-300 hover:text-white transition font-medium"
         >
-          {showLabels ? '👁️ Hide Labels (Practice Mode)' : '🏷️ Show Textbook Labels'}
+          {showLabels ? 'Hide Labels (Practice Mode)' : 'Show Labels'}
         </button>
       </div>
 
       {/* SVG Canvas Container */}
-      <div className="w-full bg-[#080C1A] border border-amber-500/40 rounded-2xl p-4 sm:p-6 flex justify-center items-center min-h-[360px] shadow-2xl overflow-x-auto">
+      <div className="w-full bg-[#080B14] border border-white/[0.08] rounded-xl p-4 sm:p-6 flex justify-center items-center min-h-[360px] overflow-x-auto">
         {figureId === 'ncert-fig-6-7-heart' && <HeartIllustration showLabels={showLabels} />}
         {figureId === 'ncert-fig-6-14-nephron' && <NephronIllustration showLabels={showLabels} />}
         {figureId === 'ncert-fig-6-3-stomata' && <StomataIllustration showLabels={showLabels} />}

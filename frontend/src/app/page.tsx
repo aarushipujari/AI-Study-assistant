@@ -132,7 +132,7 @@ export default function StudyAssistantPage() {
       {isClass10 ? (
         <div className="space-y-6">
           {/* Class 10 Module Tabs */}
-          <div className="vault-panel p-1.5 rounded-2xl flex flex-wrap gap-1.5 border border-amber-500/30">
+          <div className="vault-panel p-1 rounded-xl flex flex-wrap gap-1 border border-white/[0.08]">
             {[
               {
                 id: 'class10_pyqs',
@@ -163,10 +163,10 @@ export default function StudyAssistantPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex-1 min-w-[170px] text-xs font-mono font-bold py-3 px-3.5 rounded-xl flex items-center justify-center gap-2 transition-all ${
+                className={`flex-1 min-w-[170px] text-xs font-sans font-medium py-2.5 px-3 rounded-lg flex items-center justify-center gap-2 transition ${
                   activeTab === tab.id
-                    ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-black shadow-lg shadow-amber-500/30'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                    ? 'bg-indigo-600 text-white font-semibold shadow-sm'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]'
                 }`}
               >
                 {tab.icon}
@@ -296,12 +296,10 @@ export default function StudyAssistantPage() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex-1 min-w-[145px] text-xs font-mono font-bold py-3 px-3 rounded-xl flex items-center justify-center gap-2 transition-all ${
+                  className={`flex-1 min-w-[145px] text-xs font-sans font-medium py-2.5 px-3 rounded-lg flex items-center justify-center gap-2 transition ${
                     activeTab === tab.id
-                      ? isMedical
-                        ? 'vault-btn-emerald text-white shadow-lg shadow-emerald-500/30'
-                        : 'vault-btn-primary text-white shadow-lg shadow-indigo-500/30'
-                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                      ? 'bg-indigo-600 text-white font-semibold shadow-sm'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]'
                   }`}
                 >
                   {tab.icon}
