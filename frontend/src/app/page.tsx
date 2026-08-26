@@ -177,9 +177,9 @@ export default function StudyAssistantPage() {
 
           {/* Module Content */}
           <div className="transition-all duration-300">
-            {activeTab === 'class10_pyqs' && <Class10Tab />}
+            {activeTab === 'class10_pyqs' && <Class10Tab initialView="pyqs" />}
             {activeTab === 'class10_diagrams' && (
-              <DiagramsTab subject="Class 10 CBSE Science & Ray Optics" />
+              <Class10Tab initialView="ncert_diagrams" />
             )}
             {activeTab === 'class10_chat' && (
               <ChatTab subject="CBSE Class 10 Science & Mathematics (NCERT)" />

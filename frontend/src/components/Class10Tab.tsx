@@ -30,8 +30,12 @@ import {
 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 
-export function Class10Tab() {
-  const [subView, setSubView] = useState<'pyqs' | 'ncert_diagrams'>('pyqs');
+interface Class10TabProps {
+  initialView?: 'pyqs' | 'ncert_diagrams';
+}
+
+export function Class10Tab({ initialView = 'pyqs' }: Class10TabProps) {
+  const [subView, setSubView] = useState<'pyqs' | 'ncert_diagrams'>(initialView);
   const [selectedSubject, setSelectedSubject] = useState<Class10Subject>('Science (Biology)');
   const [selectedChapterId, setSelectedChapterId] = useState<string>('bio-ch5');
   const [selectedDiagramId, setSelectedDiagramId] = useState<string>(OFFICIAL_NCERT_DIAGRAMS[0].id);
@@ -39,6 +43,12 @@ export function Class10Tab() {
   const [pyqData, setPyqData] = useState<Class10PYQResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [expandedSolutions, setExpandedSolutions] = useState<Record<string, boolean>>({});
+
+  useEffect(() => {
+    if (initialView) {
+      setSubView(initialView);
+    }
+  }, [initialView]);
 
   // Filter chapters by selected subject
   const subjectChapters = CLASS10_CHAPTERS.filter((c) => c.subject === selectedSubject);
